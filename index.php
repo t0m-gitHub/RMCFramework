@@ -8,3 +8,4 @@ require_once($rmcFramework);
 
 \RMC\Bootstrap::setAutoLoad();
 \RMC\Bootstrap::init();
+//testK
