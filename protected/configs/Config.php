@@ -19,7 +19,13 @@ class Config
                 'controllers'
             ),
 
-            'viewsPaths' =>  'views',
+            'viewsPaths' => array(
+                'views',
+            ),
+
+            'modelValidatorsPaths' => array (
+                'models'. DIRECTORY_SEPARATOR . 'validators',
+            ),
 
             'modelsPaths' => array(
                 'models',

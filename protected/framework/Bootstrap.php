@@ -30,8 +30,9 @@ class Bootstrap
         $includePaths = \Config::get()->includePaths;
         $controllersPaths = \Config::get()->controllersPaths;
         $modelsPaths = \Config::get()->modelsPaths;
+        $modelValidatorsPaths = \Config::get()->modelValidatorsPaths;
 
-        $paths = array_merge($includePaths, $controllersPaths, $modelsPaths, $frameworkFolders);
+        $paths = array_merge($includePaths, $controllersPaths, $modelsPaths, $frameworkFolders, $modelValidatorsPaths);
         foreach($paths as $key => $path){
             $file =  $path . DIRECTORY_SEPARATOR . $class . '.php';
             if (file_exists($basePath . DIRECTORY_SEPARATOR  .$file)){

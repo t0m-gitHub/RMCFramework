@@ -19,12 +19,15 @@ abstract class Controller
     {
         ob_start();
         $controllerName = lcfirst(Tools::getClassName($this));
-        $view = \Config::get()->basePath . DIRECTORY_SEPARATOR . \Config::get()->viewsPaths . DIRECTORY_SEPARATOR . $controllerName . DIRECTORY_SEPARATOR . $viewName . '.' . TEMPLATE_EXTENSION;
-        extract($params,EXTR_OVERWRITE);
-        if (file_exists($view)){
-            require($view);
-        } else {
-            throw new RMCException("View {$viewName} not found");
+        $paths = \Config::get()->viewsPaths;
+        foreach($paths as $path){
+            $view = \Config::get()->basePath . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $controllerName . DIRECTORY_SEPARATOR . $viewName . '.' . TEMPLATE_EXTENSION;
+            extract($params,EXTR_OVERWRITE);
+            if (file_exists($view)){
+                require($view);
+            } else {
+                throw new RMCException("View {$viewName} not found");
+            }
         }
         $result = ob_get_contents();
         ob_clean();
