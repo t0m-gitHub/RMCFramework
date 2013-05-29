@@ -21,7 +21,7 @@ abstract class DataContainerAbstract
 
             $serializerName = 'RMC\\'.$format . SERIALIZERS_SUFFIX;
             if(!class_exists($serializerName)){
-                throw new RMCException("Serializer for {$format} not found");
+                throw new RMCException("Unsupported format {$format}");
             }
             $this->serializer = new $serializerName();
         }
@@ -32,12 +32,12 @@ abstract class DataContainerAbstract
         if(isset($format)){
             $serializerName =  'RMC\\'.$format . SERIALIZERS_SUFFIX;
             if(!class_exists($serializerName)){
-                throw new RMCException("Serializer for {$format} not found");
+                throw new RMCException("Unsupported format {$format}");
             }
             $serializer = new $serializerName();
         } else {
             if(!isset($this->serializer)){
-                throw new RMCException("Serializer for {$format} not found");
+                throw new RMCException("Unsupported format {$format}");
             }
             $serializer = $this->serializer;
         }

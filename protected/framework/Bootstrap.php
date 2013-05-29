@@ -54,41 +54,57 @@ class Bootstrap
 
     static function init()
     {
-        require_once(\Config::get()->frameworkPath . DIRECTORY_SEPARATOR . 'Constants.php');
-        if (!empty($_REQUEST[HTTP_GET_ACTION_PARAMETER])){
-            if ($_REQUEST[HTTP_GET_ACTION_PARAMETER] == REMOTE_MODEL_CALL_ACTION_NAME){
-                static::remoteModelCall();
-                exit;
-            }
-            if (strpos($_REQUEST[HTTP_GET_ACTION_PARAMETER], '/')){
-                list($controller, $action) = explode('/', $_REQUEST[HTTP_GET_ACTION_PARAMETER]);
-                $action = !empty($action) ? filter_var($action, FILTER_SANITIZE_STRING) . ACTIONS_SUFFIX : DEFAULT_ACTION_NAME;
-                $controller = !empty($controller) ? ucfirst(filter_var($controller, FILTER_SANITIZE_STRING)) . CONTROLLERS_SUFFIX : \Config::get()->defaultController;
+        try
+        {
+            require_once(\Config::get()->frameworkPath . DIRECTORY_SEPARATOR . 'Constants.php');
+            if (!empty($_REQUEST[HTTP_GET_ACTION_PARAMETER])){
+                if ($_REQUEST[HTTP_GET_ACTION_PARAMETER] == REMOTE_MODEL_CALL_ACTION_NAME){
+                    $dataType = !empty($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER]) ? filter_var($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER], FILTER_SANITIZE_STRING) : DEFAULT_DATA_TYPE;
+                    $jsonData = '{
+                        "modelName": "TestModel",
+                        "calledMethod": "testMethod",
+                        "modelProperties":
+                            {
+                                "testProperty": "Hello World"
+                            }
+
+                    }';
+                    static::remoteModelCall($dataType, $jsonData);
+                    exit;
+                }
+                if (strpos($_REQUEST[HTTP_GET_ACTION_PARAMETER], '/')){
+                    list($controller, $action) = explode('/', $_REQUEST[HTTP_GET_ACTION_PARAMETER]);
+                    $action = !empty($action) ? filter_var($action, FILTER_SANITIZE_STRING) . ACTIONS_SUFFIX : DEFAULT_ACTION_NAME;
+                    $controller = !empty($controller) ? ucfirst(filter_var($controller, FILTER_SANITIZE_STRING)) . CONTROLLERS_SUFFIX : \Config::get()->defaultController;
+                } else {
+                    $controller = ucfirst(trim(filter_var($_REQUEST[HTTP_GET_ACTION_PARAMETER], FILTER_SANITIZE_STRING))) . CONTROLLERS_SUFFIX;
+                    $action = DEFAULT_ACTION_NAME . ACTIONS_SUFFIX;
+                }
             } else {
-                $controller = ucfirst(trim(filter_var($_REQUEST[HTTP_GET_ACTION_PARAMETER], FILTER_SANITIZE_STRING))) . CONTROLLERS_SUFFIX;
+                $controller = \Config::get()->defaultController . CONTROLLERS_SUFFIX;
                 $action = DEFAULT_ACTION_NAME . ACTIONS_SUFFIX;
             }
-        } else {
-            $controller = \Config::get()->defaultController . CONTROLLERS_SUFFIX;
-            $action = DEFAULT_ACTION_NAME . ACTIONS_SUFFIX;
+            $controllerObject = new $controller();
+            $controllerObject->$action();
+        } catch (UserException $e) {
+            if ($_REQUEST[HTTP_GET_ACTION_PARAMETER] == REMOTE_MODEL_CALL_ACTION_NAME){
+                $response = new DataContainerResponse($dataType);
+                $response->success = false;
+                $response->errors = $e->getMessage();
+                echo $response->getSerializedData();
+                exit;
+            }
+            echo $e->getMessage();
+            exit;
         }
-        $controllerObject = new $controller();
-        $controllerObject->$action();
+
     }
     
-    private function remoteModelCall()
+    private function remoteModelCall($dataType, $jsonData)
     {
         $controller = new RemoteModelCallController();
-        $jsonData = '{
-                            "modelName": "TestModel",
-                            "calledMethod": "testMethod",
-                            "modelProperties":
-                                {
-                                    "testProperty": "Hello World"
-                                }
-
-                        }';
-        $response = $controller->run('JSON',$jsonData);
+        $response = $controller->run($dataType,$jsonData);
         echo $response->getSerializedData('JSON');
+        exit;
     }
 }

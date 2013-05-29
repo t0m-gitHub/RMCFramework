@@ -8,3 +8,5 @@ define('DEFAULT_ACTION_NAME', 'Index');
 define('TEMPLATE_EXTENSION', 'php');
 define('REMOTE_MODEL_CALL_ACTION_NAME', 'RemoteModelCall');
 define('HTTP_GET_ACTION_PARAMETER', 'action');
+define('HTTP_GET_DATA_TYPE_PARAMETER', 'dataContainer');
+define('DEFAULT_DATA_TYPE', 'JSON');
