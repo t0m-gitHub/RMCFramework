@@ -25,4 +25,9 @@ abstract class ValidatorAbstract
         }
         return call_user_func_array(array($this->model, $method), $params);
     }
+
+    public function __set($property, $value)
+    {
+        $this->model->$property = $value;
+    }
 }

@@ -10,7 +10,7 @@
 namespace RMC;
 
 
-abstract class Singleton
+abstract class ClosedConstructor
 {
     protected function __construct() {}
     private function __sleep() {}

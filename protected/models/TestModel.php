@@ -9,14 +9,14 @@
 
 class TestModel extends RMC\ModelAbstract
 {
+    public $testProperty;
+
     public function testMethod()
     {
-        echo 'TestMethod'."\n";
-    }
-
-    public function withoutValidation($a, $b)
-    {
-        echo $a.$b;
+        $response = new RMC\DataContainerResponse();
+        $response->success = true;
+        $response->data = array('property' => $this->testProperty);
+        return $response;
     }
 
     /**

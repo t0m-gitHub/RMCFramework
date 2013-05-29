@@ -22,6 +22,8 @@ class Bootstrap
             'controller',
             'model',
             'codeGenerator',
+            'serializers',
+            'dataContainer',
             '',
         );
         $frameworkPath = \Config::get()->frameworkPath;
@@ -44,7 +46,6 @@ class Bootstrap
 
                 require_once($frameworkPath . DIRECTORY_SEPARATOR  .$file);
                 break;
-
             } elseif(count($paths) + 1 == $key) {
                 throw new \RMC\FileNotFoundException("Class {$class} not found");
             }
@@ -54,13 +55,17 @@ class Bootstrap
     static function init()
     {
         require_once(\Config::get()->frameworkPath . DIRECTORY_SEPARATOR . 'Constants.php');
-        if (!empty($_REQUEST['action'])){
-            if (strpos($_REQUEST['action'], '/')){
-                list($controller, $action) = explode('/', $_REQUEST['action']);
+        if (!empty($_REQUEST[HTTP_GET_ACTION_PARAMETER])){
+            if ($_REQUEST[HTTP_GET_ACTION_PARAMETER] == REMOTE_MODEL_CALL_ACTION_NAME){
+                static::remoteModelCall();
+                exit;
+            }
+            if (strpos($_REQUEST[HTTP_GET_ACTION_PARAMETER], '/')){
+                list($controller, $action) = explode('/', $_REQUEST[HTTP_GET_ACTION_PARAMETER]);
                 $action = !empty($action) ? filter_var($action, FILTER_SANITIZE_STRING) . ACTIONS_SUFFIX : DEFAULT_ACTION_NAME;
                 $controller = !empty($controller) ? ucfirst(filter_var($controller, FILTER_SANITIZE_STRING)) . CONTROLLERS_SUFFIX : \Config::get()->defaultController;
             } else {
-                $controller = ucfirst(trim(filter_var($_REQUEST['action'], FILTER_SANITIZE_STRING))) . CONTROLLERS_SUFFIX;
+                $controller = ucfirst(trim(filter_var($_REQUEST[HTTP_GET_ACTION_PARAMETER], FILTER_SANITIZE_STRING))) . CONTROLLERS_SUFFIX;
                 $action = DEFAULT_ACTION_NAME . ACTIONS_SUFFIX;
             }
         } else {
@@ -69,5 +74,21 @@ class Bootstrap
         }
         $controllerObject = new $controller();
         $controllerObject->$action();
+    }
+    
+    private function remoteModelCall()
+    {
+        $controller = new RemoteModelCallController();
+        $jsonData = '{
+                            "modelName": "TestModel",
+                            "calledMethod": "testMethod",
+                            "modelProperties":
+                                {
+                                    "testProperty": "Hello World"
+                                }
+
+                        }';
+        $response = $controller->run('JSON',$jsonData);
+        echo $response->getSerializedData('JSON');
     }
 }

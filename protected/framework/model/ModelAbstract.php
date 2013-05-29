@@ -6,7 +6,7 @@
  */
 namespace RMC;
 
-abstract class ModelAbstract extends Singleton
+abstract class ModelAbstract extends ClosedConstructor
 {
     public static function getInstance()
     {
