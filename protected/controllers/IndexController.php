@@ -8,6 +8,8 @@ class IndexController extends \RMC\Controller
 {
     public function indexAction()
     {
+        $model = TestModel::getInstance();
+        $model->withoutValidation(1,2);
         $this->render('index', array('string' => 'hi'));
     }
 }
