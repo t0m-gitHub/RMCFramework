@@ -46,6 +46,7 @@ class Bootstrap
 
                 require_once($frameworkPath . DIRECTORY_SEPARATOR  .$file);
                 break;
+
             } elseif(count($paths) + 1 == $key) {
                 throw new \RMC\FileNotFoundException("Class {$class} not found");
             }
@@ -57,21 +58,16 @@ class Bootstrap
         try
         {
             require_once(\Config::get()->frameworkPath . DIRECTORY_SEPARATOR . 'Constants.php');
-            if (!empty($_REQUEST[HTTP_GET_ACTION_PARAMETER])){
-                if ($_REQUEST[HTTP_GET_ACTION_PARAMETER] == REMOTE_MODEL_CALL_ACTION_NAME){
-                    $dataType = !empty($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER]) ? filter_var($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER], FILTER_SANITIZE_STRING) : DEFAULT_DATA_TYPE;
-                    $jsonData = '{
-                        "modelName": "TestModel",
-                        "calledMethod": "testMethod",
-                        "modelProperties":
-                            {
-                                "testProperty": "Hello World"
-                            }
 
-                    }';
-                    static::remoteModelCall($dataType, $jsonData);
+            Session::getInstance();
+
+            if (!empty($_REQUEST[HTTP_GET_ACTION_PARAMETER])){
+
+                if ($_REQUEST[HTTP_GET_ACTION_PARAMETER] == REMOTE_MODEL_CALL_ACTION_NAME){
+                    static::remoteModelCall();
                     exit;
                 }
+
                 if (strpos($_REQUEST[HTTP_GET_ACTION_PARAMETER], '/')){
                     list($controller, $action) = explode('/', $_REQUEST[HTTP_GET_ACTION_PARAMETER]);
                     $action = !empty($action) ? filter_var($action, FILTER_SANITIZE_STRING) . ACTIONS_SUFFIX : DEFAULT_ACTION_NAME;
@@ -80,28 +76,35 @@ class Bootstrap
                     $controller = ucfirst(trim(filter_var($_REQUEST[HTTP_GET_ACTION_PARAMETER], FILTER_SANITIZE_STRING))) . CONTROLLERS_SUFFIX;
                     $action = DEFAULT_ACTION_NAME . ACTIONS_SUFFIX;
                 }
+
             } else {
                 $controller = \Config::get()->defaultController . CONTROLLERS_SUFFIX;
                 $action = DEFAULT_ACTION_NAME . ACTIONS_SUFFIX;
             }
+
             $controllerObject = new $controller();
             $controllerObject->$action();
-        } catch (UserException $e) {
-            if ($_REQUEST[HTTP_GET_ACTION_PARAMETER] == REMOTE_MODEL_CALL_ACTION_NAME){
-                $response = new DataContainerResponse($dataType);
-                $response->success = false;
-                $response->errors = $e->getMessage();
-                echo $response->getSerializedData();
-                exit;
-            }
-            echo $e->getMessage();
+
+        } catch (\Exception $e) {
+            ExceptionHandler::process($e);
             exit;
         }
 
     }
     
-    private function remoteModelCall($dataType, $jsonData)
+    private function remoteModelCall()
     {
+        $dataType = !empty($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER]) ? filter_var($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER], FILTER_SANITIZE_STRING) : DEFAULT_DATA_TYPE.'de';
+        Session::setDataContainerType($dataType);
+        $jsonData = '{
+                        "modelName": "TestModel",
+                        "calledMethod": "testMethod",
+                        "modelProperties":
+                            {
+                                "testProperty": "Hello World"
+                            }
+
+                    }';
         $controller = new RemoteModelCallController();
         $response = $controller->run($dataType,$jsonData);
         echo $response->getSerializedData('JSON');

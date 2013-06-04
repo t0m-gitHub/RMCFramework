@@ -25,7 +25,7 @@ class RemoteModelCallController
             throw  new UserException('Model or method is invalid');
         }
         if (!is_array($modelData->modelProperties)){
-            throw new UserException('invalid model properties');
+            throw new UserException('Invalid model properties');
         }
         $model = $modelName::getInstance();
         if ($modelData->modelProperties){
