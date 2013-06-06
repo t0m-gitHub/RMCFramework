@@ -9,7 +9,8 @@ class IndexController extends \RMC\Controller
     public function indexAction()
     {
         $model = TestModel::getInstance();
-        $model->testMethod(1,2);
-        $this->render('index', array('string' => 'hi'));
+        $model->testMethod();
+        $model = AnotherTestModel::getInstance();
+        $model->testMethod();
     }
 }

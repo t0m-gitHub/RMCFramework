@@ -12,7 +12,11 @@ abstract class ModelAbstract extends ClosedConstructor
     {
         $className = get_called_class();
         $validatorName = $className . VALIDATORS_SUFFIX;
+        $generalDecorator = !empty(\Config::get()->generalDecorator) ? \Config::get()->generalDecorator : false;
         if(class_exists($validatorName)){
+            if($generalDecorator && class_exists($validatorName)){
+                return new $generalDecorator( new $validatorName( new $className ) );
+            }
             return new $validatorName( new $className );
         }
         return new $className;

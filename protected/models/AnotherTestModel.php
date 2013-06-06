@@ -1,24 +1,25 @@
 <?php
 /**
  * Created by JetBrains PhpStorm.
- * User: t0m
- * Date: 29.05.13
- * Time: 21:23
+ * User: root
+ * Date: 06.06.13
+ * Time: 9:12
  * To change this template use File | Settings | File Templates.
  */
 
-class TestModel extends RMC\ModelAbstract
+class AnotherTestModel extends RMC\ModelAbstract
 {
+
     public function testMethod()
     {
-        echo 'model 1 test method<br /><br />';
+        echo 'model 2 test method<br /><br />';
     }
 
     /**
-     * @return TestModel
+     * @return AnotherTestModel
      */
     public static function getInstance()
     {
-       return parent::getInstance();
+        return parent::getInstance();
     }
 }

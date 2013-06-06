@@ -10,16 +10,17 @@
 namespace RMC;
 
 
-abstract class ValidatorAbstract
+abstract class DecoratorAbstract
 {
     protected $model;
 
-    public function __construct(ModelAbstract $model)
+    public function __construct($model)
     {
         $this->model = $model;
     }
 
-    public function __call($method, $params){
+    public function __call($method, $params)
+    {
         if(!method_exists($this->model, $method)){
             throw new RMCException("Method {$method} not found in model " . get_class($this->model));
         }
