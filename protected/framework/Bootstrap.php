@@ -24,6 +24,8 @@ class Bootstrap
             'codeGenerator',
             'serializers',
             'dataContainer',
+            'abstractTemplates',
+            'routers',
             '',
         );
         $frameworkPath = \Config::get()->frameworkPath;
@@ -60,30 +62,9 @@ class Bootstrap
             require_once(\Config::get()->frameworkPath . DIRECTORY_SEPARATOR . 'Constants.php');
 
             Session::getInstance();
+            $requestRouter = new RequestRouter();
+            $requestRouter->run(isset($_REQUEST[HTTP_GET_ACTION_PARAMETER]) ? $_REQUEST[HTTP_GET_ACTION_PARAMETER] : null);
 
-            if (!empty($_REQUEST[HTTP_GET_ACTION_PARAMETER])){
-
-                if ($_REQUEST[HTTP_GET_ACTION_PARAMETER] == REMOTE_MODEL_CALL_ACTION_NAME){
-                    static::remoteModelCall();
-                    exit;
-                }
-
-                if (strpos($_REQUEST[HTTP_GET_ACTION_PARAMETER], '/')){
-                    list($controller, $action) = explode('/', $_REQUEST[HTTP_GET_ACTION_PARAMETER]);
-                    $action = !empty($action) ? filter_var($action, FILTER_SANITIZE_STRING) . ACTIONS_SUFFIX : DEFAULT_ACTION_NAME;
-                    $controller = !empty($controller) ? ucfirst(filter_var($controller, FILTER_SANITIZE_STRING)) . CONTROLLERS_SUFFIX : \Config::get()->defaultController;
-                } else {
-                    $controller = ucfirst(trim(filter_var($_REQUEST[HTTP_GET_ACTION_PARAMETER], FILTER_SANITIZE_STRING))) . CONTROLLERS_SUFFIX;
-                    $action = DEFAULT_ACTION_NAME . ACTIONS_SUFFIX;
-                }
-
-            } else {
-                $controller = \Config::get()->defaultController . CONTROLLERS_SUFFIX;
-                $action = DEFAULT_ACTION_NAME . ACTIONS_SUFFIX;
-            }
-
-            $controllerObject = new $controller();
-            $controllerObject->$action();
 
         } catch (\Exception $e) {
             ExceptionHandler::process($e);
@@ -92,22 +73,5 @@ class Bootstrap
 
     }
     
-    private function remoteModelCall()
-    {
-        $dataType = !empty($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER]) ? filter_var($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER], FILTER_SANITIZE_STRING) : DEFAULT_DATA_TYPE.'de';
-        Session::setDataContainerType($dataType);
-        $jsonData = '{
-                        "modelName": "TestModel",
-                        "calledMethod": "testMethod",
-                        "modelProperties":
-                            {
-                                "testProperty": "Hello World"
-                            }
 
-                    }';
-        $controller = new RemoteModelCallController();
-        $response = $controller->run($dataType,$jsonData);
-        echo $response->getSerializedData('JSON');
-        exit;
-    }
 }
