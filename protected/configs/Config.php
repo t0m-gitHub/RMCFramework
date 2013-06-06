@@ -41,7 +41,9 @@ class Config
                 'host' => 'localhost',
                 'port' => '3306',
             ),
-            'generalDecorator' => 'GeneralDecorator'
+
+            'generalModelDecorator' => 'GeneralDecorator',
+            'exceptionHandler' => 'ExceptionHandler'
 
         );
     }

@@ -10,7 +10,20 @@
 namespace RMC;
 
 
-abstract class ExceptionHandlerAbstract
+abstract class ExceptionHandlerAbstract extends StaticClass
 {
-    abstract public function process( \Exception $e);
+    public static function process( \Exception $e )
+    {
+        list($namespace, $class) = explode('\\', get_class($e));
+        $handleMethod = 'handle' . $class;
+        if (method_exists(get_called_class(), $handleMethod)){
+            static::$handleMethod($e);
+        } else {
+            throw $e;
+        }
+    }
+    abstract protected function handleUserException( \RMC\UserException $e );
+    abstract protected function handleFileNotFoundException( \RMC\FileNotFoundException $e );
+    abstract protected function handleRMCException( \RMC\RMCException $e );
+    abstract protected function handleException( \Exception $e );
 }

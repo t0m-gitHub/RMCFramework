@@ -5,7 +5,7 @@
  * Time: 16:10
  */
 namespace RMC;
-class Tools
+class Tools extends StaticClass
 {
     static function getClassName(Controller $class)
     {

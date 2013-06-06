@@ -22,8 +22,12 @@ class RequestRouter extends StaticClass
             $dataType = !empty($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER]) ? filter_var($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER], FILTER_SANITIZE_STRING) : DEFAULT_DATA_TYPE;
             static::remoteModelCall($dataType);
         }
+        if( strpos($actionPath, ROTE_SEPARATOR_CHAR) ){
+            list($controller, $action) = explode(ROTE_SEPARATOR_CHAR, $actionPath);
+        } else {
+            $controller = $actionPath;
+        }
 
-        list($controller, $action) = explode(ROTE_SEPARATOR_CHAR, $actionPath);
 
         if(!empty($controller) && empty($action)){
             static::runDefaultAction($controller . CONTROLLERS_SUFFIX);

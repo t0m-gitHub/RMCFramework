@@ -66,7 +66,7 @@ class Bootstrap
 
         } catch (\Exception $e) {
 
-            ExceptionHandler::process($e);
+            ExceptionRouter::process($e);
             exit;
 
         }

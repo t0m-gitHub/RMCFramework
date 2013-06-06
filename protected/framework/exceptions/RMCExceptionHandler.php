@@ -10,7 +10,7 @@
 namespace RMC;
 
 
-class ExceptionHandler extends StaticClass
+class RMCExceptionHandler extends StaticClass
 {
 
     private function handleUserException(UserException $e)
@@ -41,16 +41,5 @@ class ExceptionHandler extends StaticClass
     private function handleFileNotFoundException(FileNotFoundException $e)
     {
         echo $e->getMessage();
-    }
-
-    public static function process(\Exception $e)
-    {
-        list($namespace, $class) = explode('\\', get_class($e));
-        $handleMethod = 'handle' . $class;
-        if (method_exists(get_class(), $handleMethod)){
-            static::$handleMethod($e);
-        } else {
-
-        }
     }
 }
