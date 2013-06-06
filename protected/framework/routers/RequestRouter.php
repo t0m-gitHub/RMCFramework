@@ -10,25 +10,25 @@
 namespace RMC;
 
 
-class RequestRouter
+class RequestRouter extends StaticClass
 {
-    public function run( $actionPath = '' )
+    public static function run( $actionPath = '' )
     {
         if (empty($actionPath)){
-            $this->createDefaultModelAndRunDefaultAction();
+            static::createDefaultModelAndRunDefaultAction();
         }
 
         if ($actionPath == REMOTE_MODEL_CALL_ACTION_NAME){
             $dataType = !empty($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER]) ? filter_var($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER], FILTER_SANITIZE_STRING) : DEFAULT_DATA_TYPE;
-            $this->remoteModelCall($dataType);
+            static::remoteModelCall($dataType);
         }
 
-        list($controller, $action) = explode('/', $actionPath);
+        list($controller, $action) = explode(ROTE_SEPARATOR_CHAR, $actionPath);
 
         if(!empty($controller) && empty($action)){
-            $this->runDefaultAction($controller . CONTROLLERS_SUFFIX);
+            static::runDefaultAction($controller . CONTROLLERS_SUFFIX);
         } elseif (!empty($controller) && !empty($action)){
-            $this->createControllerAndRunAction($controller . CONTROLLERS_SUFFIX, $action . ACTIONS_SUFFIX);
+            static::createControllerAndRunAction($controller . CONTROLLERS_SUFFIX, $action . ACTIONS_SUFFIX);
         }
 
     }
@@ -45,12 +45,12 @@ class RequestRouter
 
     private function createDefaultModelAndRunDefaultAction()
     {
-        $this->createControllerAndRunAction(\Config::get()->defaultController . CONTROLLERS_SUFFIX, DEFAULT_ACTION_NAME . ACTIONS_SUFFIX);
+        static::createControllerAndRunAction(\Config::get()->defaultController . CONTROLLERS_SUFFIX, DEFAULT_ACTION_NAME . ACTIONS_SUFFIX);
     }
 
     private function runDefaultAction( $controller )
     {
-        $this->createControllerAndRunAction($controller, DEFAULT_ACTION_NAME);
+        static::createControllerAndRunAction($controller, DEFAULT_ACTION_NAME);
     }
 
     private function remoteModelCall($dataType)

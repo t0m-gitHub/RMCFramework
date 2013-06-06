@@ -62,13 +62,13 @@ class Bootstrap
             require_once(\Config::get()->frameworkPath . DIRECTORY_SEPARATOR . 'Constants.php');
 
             Session::getInstance();
-            $requestRouter = new RequestRouter();
-            $requestRouter->run(isset($_REQUEST[HTTP_GET_ACTION_PARAMETER]) ? $_REQUEST[HTTP_GET_ACTION_PARAMETER] : null);
-
+            RequestRouter::run(!empty($_REQUEST[HTTP_GET_ACTION_PARAMETER]) ? $_REQUEST[HTTP_GET_ACTION_PARAMETER] : null);
 
         } catch (\Exception $e) {
+
             ExceptionHandler::process($e);
             exit;
+
         }
 
     }

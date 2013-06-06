@@ -10,9 +10,8 @@
 namespace RMC;
 
 
-class ExceptionHandler
+class ExceptionHandler extends StaticClass
 {
-    private function __construct() {}
 
     private function handleUserException(UserException $e)
     {

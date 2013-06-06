@@ -9,6 +9,7 @@ class Config
     public static function get()
     {
         return (object) array(
+
             'basePath' => __DIR__ . DIRECTORY_SEPARATOR . '..',
 
             'frameworkPath' => __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'framework',
@@ -41,6 +42,7 @@ class Config
                 'port' => '3306',
             ),
             'generalDecorator' => 'GeneralDecorator'
+
         );
     }
 }
