@@ -43,6 +43,7 @@ class Config
             ),
 
             'generalModelDecorator' => 'GeneralDecorator',
+
             'exceptionHandler' => 'ExceptionHandler'
 
         );
