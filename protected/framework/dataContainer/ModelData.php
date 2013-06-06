@@ -21,6 +21,9 @@ class ModelData extends DataContainerAbstract
     {
         parent::__construct($format);
         $unserializedData = $this->serializer->unserialize($rawData);
+        if(!$unserializedData){
+            throw new UserException('invalid data format');
+        }
         $this->modelName = isset($unserializedData['modelName']) ? $unserializedData['modelName'] : null;
         $this->modelProperties = isset($unserializedData['modelProperties']) ? $unserializedData['modelProperties'] : null;
         $this->calledMethod = isset($unserializedData['calledMethod']) ? $unserializedData['calledMethod'] : null;

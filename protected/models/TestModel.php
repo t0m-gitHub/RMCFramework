@@ -11,7 +11,10 @@ class TestModel extends RMC\ModelAbstract
 {
     public function testMethod()
     {
-        echo 'model 1 test method<br /><br />';
+        $response = new \RMC\DataContainerResponse();
+        $response->success = true;
+        $response->data = 'hello world';
+        return $response;
     }
 
     /**

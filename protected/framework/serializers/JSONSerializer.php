@@ -14,7 +14,11 @@ class JSONSerializer implements SerializerInterface
 {
     public function serialize(DataContainerResponse $data)
     {
-        $return  = json_encode((array) $data);
+        $responseArray = array();
+        foreach($data as $key => $value){
+            $responseArray[$key] = $value;
+        }
+        $return  = json_encode($responseArray);
         return $return;
     }
 

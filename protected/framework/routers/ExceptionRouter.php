@@ -12,7 +12,6 @@ namespace RMC;
 
 class ExceptionRouter extends StaticClass
 {
-
     public static function process( \Exception $e )
     {
         $exceptionHandler = !empty(\Config::get()->exceptionHandler) ? \Config::get()->exceptionHandler : false;

@@ -9,7 +9,9 @@
 
 namespace RMC;
 
-
+/**
+ *
+*/
 abstract class ClosedConstructor
 {
     protected function __construct() {}

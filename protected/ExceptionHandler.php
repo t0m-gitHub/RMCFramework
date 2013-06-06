@@ -16,6 +16,7 @@ class ExceptionHandler extends RMC\DefaultExceptionHandler
 
     protected function handleRMCException( \RMC\RMCException $e)
     {
+       echo  $e->getMessage();
         parent::handleRMCException($e);
     }
 

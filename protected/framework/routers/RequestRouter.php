@@ -54,24 +54,15 @@ class RequestRouter extends StaticClass
 
     private function runDefaultAction( $controller )
     {
-        static::createControllerAndRunAction($controller, DEFAULT_ACTION_NAME);
+        static::createControllerAndRunAction($controller, DEFAULT_ACTION_NAME . ACTIONS_SUFFIX);
     }
 
     private function remoteModelCall($dataType)
     {
-
         Session::setDataContainerType($dataType);
-        $jsonData = '{
-                        "modelName": "TestModel",
-                        "calledMethod": "testMethod",
-                        "modelProperties":
-                            {
-                                "testProperty": "Hello World"
-                            }
-
-                    }';
+        $data = file_get_contents('php://input');
         $controller = new RemoteModelCallController();
-        $response = $controller->run($dataType,$jsonData);
+        $response = $controller->run($dataType,$data);
         echo $response->getSerializedData('JSON');
         exit;
     }
