@@ -9,6 +9,8 @@
 
 class GeneralDecorator extends \RMC\GeneralDecoratorAbstract
 {
+    private $modelMethodsTextOutput;
+
     protected function beforeMethodRun($method, $data)
     {
         ob_start();
@@ -17,9 +19,18 @@ class GeneralDecorator extends \RMC\GeneralDecoratorAbstract
     protected function afterMethodRun($method, $data, $result)
     {
         $modelTextOutput = ob_get_clean();
+        $this->modelMethodsTextOutput = $modelTextOutput;
+
         if($result instanceof RMC\DataContainerResponse){
             $result->warnings .= $modelTextOutput . '; ';
         }
+
         return $result;
     }
+
+    public function getModelMethodsTextOutput()
+    {
+        return $this->modelMethodsTextOutput;
+    }
+
 }

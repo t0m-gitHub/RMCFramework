@@ -10,7 +10,5 @@ class IndexController extends \RMC\Controller
     {
         $model = TestModel::getInstance();
         $model->testMethod();
-        $model = AnotherTestModel::getInstance();
-        $model->testMethod();
     }
 }

@@ -12,23 +12,34 @@ namespace RMC;
 
 abstract class DecoratorAbstract
 {
-    protected $model;
+    protected $_model;
 
     public function __construct($model)
     {
-        $this->model = $model;
+        $this->_model = $model;
     }
 
     public function __call($method, $params)
     {
-        if(!method_exists($this->model, $method)){
-            throw new RMCException("Method {$method} not found in model " . get_class($this->model));
+        $model = $this->getModel();
+        if(!method_exists($model, $method)){
+            throw new RMCException("Method {$method} not found in model " . get_class($model));
         }
-        return call_user_func_array(array($this->model, $method), $params);
+        return call_user_func_array(array($this->_model, $method), $params);
     }
 
     public function __set($property, $value)
     {
-        $this->model->$property = $value;
+        $model = $this->getModel();
+        $model->$property = $value;
+    }
+
+    public function getModel()
+    {
+        $model = isset($this->_model) ? $this->_model : null;
+        while(isset($model->_model)){
+            $model = isset($model->_model) ? $model->_model : null;
+        }
+        return $model;
     }
 }

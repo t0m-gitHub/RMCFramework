@@ -21,4 +21,5 @@ abstract class ModelAbstract extends ClosedConstructor
         }
         return new $className;
     }
+
 }

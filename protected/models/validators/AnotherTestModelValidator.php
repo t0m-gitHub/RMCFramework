@@ -12,6 +12,6 @@ class AnotherTestModelValidator extends RMC\DecoratorAbstract
     public function testMethod()
     {
         echo 'Test Method 2 Validator';
-        return $this->model->testMethod();
+        return $this->_model->testMethod();
     }
 }
