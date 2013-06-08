@@ -23,8 +23,8 @@ abstract class RemoteModelCallControllerAbstract
         $methodName = $modelData->calledMethod;
 
         $model = $this->getModel($modelName);
-        if(!($model instanceof DecoratorAbstract)){
-            throw new RMCException(get_class($this) . "::getModel should return a model with one decorator at least");
+        if(!($model instanceof DecoratorAbstract) && !($model instanceof ModelAbstract)){
+            throw new RMCException(get_class($this) . "::getModel should return a model");
         }
 
         if(!method_exists($modelName, $methodName)){
