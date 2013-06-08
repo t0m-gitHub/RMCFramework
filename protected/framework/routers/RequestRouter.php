@@ -61,7 +61,11 @@ class RequestRouter extends StaticClass
     {
         Session::setDataContainerType($dataType);
         $data = file_get_contents('php://input');
-        $controller = new RemoteModelCallController();
+        $remoteModelCallController = isset(\Config::get()->remoteModelCallController) ? \Config::get()->remoteModelCallController : 'RMC\\DefaultRemoteModelCallController';
+        if(!class_exists($remoteModelCallController)){
+            throw new RMCException("Class {$remoteModelCallController} not found");
+        }
+        $controller = new $remoteModelCallController();
         $response = $controller->run($dataType,$data);
         echo $response->getSerializedData('JSON');
         exit;
