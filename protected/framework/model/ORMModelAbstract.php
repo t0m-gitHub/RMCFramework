@@ -12,9 +12,18 @@ namespace RMC;
 
 abstract class ORMModelAbstract extends ModelAbstract
 {
+    protected $db;
 
     abstract protected function tableName();
     abstract protected function tableFields();
+    abstract protected function primaryKey();
+
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->db = new QueryBuilder($this->tableName());
+    }
 
     public function __set($field, $value)
     {
@@ -31,6 +40,15 @@ abstract class ORMModelAbstract extends ModelAbstract
         } else {
             $this->$field = $value;
         }
+    }
+
+    public function getByPK($key)
+    {
+        $pk = $this->primaryKey();
+        echo $this->db
+            ->where("$pk = :RMC_PK", array('RMC_PK' => $key))
+            ->limit(1)
+            ->find();
     }
 
 }

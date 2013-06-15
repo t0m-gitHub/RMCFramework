@@ -13,17 +13,18 @@ class GeneralDecorator extends \RMC\GeneralDecoratorAbstract
 
     protected function beforeMethodRun($method, $data)
     {
-        ob_start();
+        //ob_start();
+        echo '1';
     }
 
     protected function afterMethodRun($method, $data, $result)
     {
-        $modelTextOutput = ob_get_clean();
-        $this->modelMethodsTextOutput = $modelTextOutput;
-
-        if($result instanceof RMC\DataContainerResponse){
-            $result->warnings .= $modelTextOutput . '; ';
-        }
+//        $modelTextOutput = ob_get_clean();
+//        $this->modelMethodsTextOutput = $modelTextOutput;
+//
+//        if($result instanceof RMC\DataContainerResponse){
+//            $result->warnings .= $modelTextOutput . '; ';
+//        }
 
         return $result;
     }

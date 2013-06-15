@@ -13,10 +13,12 @@ namespace RMC;
 abstract class DecoratorAbstract
 {
     protected $_model;
+    protected static $_modelStatic;
 
     public function __construct($model)
     {
         $this->_model = $model;
+        static::$_modelStatic = $model;
     }
 
     public function __call($method, $params)
@@ -26,6 +28,11 @@ abstract class DecoratorAbstract
             throw new RMCException("Method {$method} not found in model " . get_class($model));
         }
         return call_user_func_array(array($this->_model, $method), $params);
+    }
+
+    public static function __callStatic($method, $params)
+    {
+        return call_user_func_array(array(static::$_modelStatic, $method), $params);
     }
 
     public function __set($property, $value)

@@ -44,8 +44,8 @@ class QueryBuilder
     public function find()
     {
         $ormHelper = $this->ormHelper;
-        $select = $ormHelper::prepareSelectCondition($this->tableName, $this->selectCondition, $this->selectSpecs);
-        $from = $ormHelper::prepareFromCondition($this->tableName);
+        $select = $ormHelper::prepareSelectCondition($this->tableName, isset($this->selectCondition) ? $this->selectCondition : array(), isset($this->selectSpecs) ? $this->selectSpecs : array());
+        $from = $ormHelper::prepareFromCondition(isset($this->tableName) ? $this->tableName : null);
         $where = $ormHelper::prepareWhereCondition($this->where);
         $groupBy = $ormHelper::prepareGroupByCondition($this->groupBy);
         $having = $ormHelper::prepareHavingCondition($this->having);

@@ -19,6 +19,9 @@ abstract class ModelAbstract extends ClosedConstructor
             }
             return new $validatorName( new $className );
         }
+        if(class_exists($generalDecorator)){
+            return new $generalDecorator(  new $className  );
+        }
         return new $className;
     }
 

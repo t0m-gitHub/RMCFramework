@@ -13,12 +13,16 @@ class Me extends \RMC\ORMModelAbstract
         return 'me';
     }
 
+    protected function primaryKey()
+    {
+        return 'id';
+    }
+
     protected function tableFields()
     {
         return array(
             'id'         => array(
-                'type' => 'int',
-                'primaryKey' => true
+                'type' => 'int'
             ),
             'firstName'  => array(
                 'type'      => 'varchar',
@@ -36,6 +40,11 @@ class Me extends \RMC\ORMModelAbstract
                 'type'      => 'dateTime'
             )
         );
+    }
+
+    public static function staticFunction()
+    {
+        echo 'static';
     }
 
     /**
