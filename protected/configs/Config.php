@@ -35,7 +35,7 @@ class Config
             'defaultController' => 'Index',
 
             'database' => array(
-                'dbType' => 'mysql',
+                'dbType' => 'MySQL',
                 'user' => 'root',
                 'password' => '',
                 'host' => 'localhost',
