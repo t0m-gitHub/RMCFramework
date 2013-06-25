@@ -21,6 +21,6 @@ class RemoteModelCallTestController extends RMC\Controller
             echo $out;
             curl_close($curl);
         }
-        $this->render('index');
+        echo $this->render('index');
     }
 }
