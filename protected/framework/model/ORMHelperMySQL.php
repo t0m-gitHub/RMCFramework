@@ -20,14 +20,6 @@ class ORMHelperMySQL extends StaticClass
         return $field;
     }
 
-    public static function prepareJoinCondition(array $joinData)
-    {
-        $join = '';
-        foreach($joinData as $joinTable){
-
-        }
-    }
-
     public static function prepareSelectCondition($table, array $fields = array(), array $specs = array())
     {
         $select = 'SELECT ';
@@ -96,12 +88,12 @@ class ORMHelperMySQL extends StaticClass
         return $result;
     }
 
-    public static function prepareJoinCondition($joinTable, $joinCondition, $joinType)
+    public static function prepareJoinCondition($joinTable, $joinCondition, $alias, $joinType)
     {
         if(!$joinTable || !($joinCondition) || !($joinType)){
             return null;
         }
-        $result = "{$joinType} JOIN {$joinTable} ON {$joinCondition} ";
+        $result = "{$joinType} JOIN {$joinTable} AS {$alias} ON ({$joinCondition}) ";
         return $result;
     }
 

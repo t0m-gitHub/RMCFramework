@@ -39,6 +39,9 @@ class MeSettings extends \RMC\ModelSettingsAbstract
             ),
             'dateOfBirth'=> array(
                 'type'      => 'dateTime'
+            ),
+            'resumeId' => array(
+                'type' => 'int'
             )
         );
     }
@@ -49,7 +52,7 @@ class MeSettings extends \RMC\ModelSettingsAbstract
             'resume' => array(
                 'model' => 'Resume',
                 'type'  => 'hasOne',
-                'keys' => array('resumeId' => 'id'),
+                'condition' => 'resume.id = me.resumeId',
                 'joinType' => 'LEFT'
             )
         );

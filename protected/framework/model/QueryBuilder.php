@@ -25,6 +25,7 @@ class QueryBuilder
     private $joinType;
     private $joinTable;
     private $joinCondition;
+    private $joinAlias;
     private $insertCondition;
     private $insertData;
     private $updateData;
@@ -53,15 +54,16 @@ class QueryBuilder
         $having = $ormHelper::prepareHavingCondition($this->having);
         $orderBy = $ormHelper::prepareOrderByCondition($this->orderBy);
         $limit = $ormHelper::prepareLimitCondition($this->limit);
-        $join = $ormHelper::prepareJoinCondition($this->joinTable, $this->joinCondition, $this->joinType);
+        $join = $ormHelper::prepareJoinCondition($this->joinTable, $this->joinCondition, $this->joinAlias, $this->joinType);
         return $select . $from . $join. $where . $groupBy . $having . $orderBy . $limit  ;
     }
 
-    public function join( $joinTable, $joinCondition, $joinType = 'LEFT' )
+    public function join( $joinTable, $joinCondition, $alias, $joinType = 'LEFT' )
     {
         $this->joinCondition = $joinCondition;
         $this->joinTable = $joinTable;
         $this->joinType = $joinType;
+        $this->joinAlias = $alias;
         return $this;
     }
 

@@ -21,11 +21,11 @@ abstract class ORMModelAbstract extends ModelAbstract
         parent::__construct();
         $modelSettingsClass = get_class($this) . SETTINGS_SUFFIX;
         if (!class_exists($modelSettingsClass)){
-            throw new RMCException('Settings for model ' . __CLASS__ . ' not found');
+            throw new RMCException('Settings for model ' . get_class($this) . ' not found');
         }
         $this->modelSettings = $modelSettingsClass;
         if(!method_exists($modelSettingsClass, 'tableName')){
-            throw new RMCException(__CLASS__ . '::tableName() method not found');
+            throw new RMCException(get_class($this) . '::tableName() method not found');
         }
         $this->db = new QueryBuilder($modelSettingsClass::tableName());
 
@@ -35,7 +35,7 @@ abstract class ORMModelAbstract extends ModelAbstract
     {
         $settings = $this->modelSettings;
         if(!method_exists($settings, 'tableName')){
-            throw new RMCException(__CLASS__ . '::tableFields() method not found');
+            throw new RMCException(get_class($this) . '::tableFields() method not found');
         }
         $fields = $settings::tableFields();
         $fieldSettings = isset($fields[$field]) ?  $fields[$field] : false;
@@ -52,11 +52,29 @@ abstract class ORMModelAbstract extends ModelAbstract
         }
     }
 
+    public function join($relation)
+    {
+        $settings = $this->modelSettings;
+        $settings = $settings::relations();
+        if(!isset($settings[$relation])){
+            throw new RMCException('there\'s no relation for model ' . get_class($this));
+        }
+        $relationSetting = $settings[$relation];
+        $joinedModelSettings = $relationSetting['model'] . SETTINGS_SUFFIX;
+        if(!class_exists($joinedModelSettings)){
+            throw new RMCException('Settings for model ' . $relationSetting['model'] . ' not found');
+        }
+        $table = $joinedModelSettings::tableName();
+
+        $this->db->join($table, $relationSetting['condition'], $relation, !empty($relationSetting['joinType']) ? $relationSetting['joinType'] : null);
+        return $this;
+    }
+
     public function getByPK($key)
     {
         $settings = $this->modelSettings;
         if(!method_exists($settings, 'primaryKey')){
-            throw new RMCException(__CLASS__ . '::primaryKey() method not found');
+            throw new RMCException(get_class($this) . '::primaryKey() method not found');
         }
         $pk = $settings::primaryKey();
         echo $this->db
