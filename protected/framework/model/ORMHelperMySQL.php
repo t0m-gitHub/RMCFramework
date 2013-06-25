@@ -20,6 +20,14 @@ class ORMHelperMySQL extends StaticClass
         return $field;
     }
 
+    public static function prepareJoinCondition(array $joinData)
+    {
+        $join = '';
+        foreach($joinData as $joinTable){
+
+        }
+    }
+
     public static function prepareSelectCondition($table, array $fields = array(), array $specs = array())
     {
         $select = 'SELECT ';
