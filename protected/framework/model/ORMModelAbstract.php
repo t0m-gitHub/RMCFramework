@@ -13,21 +13,31 @@ namespace RMC;
 abstract class ORMModelAbstract extends ModelAbstract
 {
     protected $db;
-
-    abstract protected function tableName();
-    abstract protected function tableFields();
-    abstract protected function primaryKey();
+    protected $modelSettings;
 
 
     public function __construct()
     {
         parent::__construct();
-        $this->db = new QueryBuilder($this->tableName());
+        $modelSettingsClass = get_class($this) . SETTINGS_SUFFIX;
+        if (!class_exists($modelSettingsClass)){
+            throw new RMCException('Settings for model ' . __CLASS__ . ' not found');
+        }
+        $this->modelSettings = $modelSettingsClass;
+        if(!method_exists($modelSettingsClass, 'tableName')){
+            throw new RMCException(__CLASS__ . '::tableName() method not found');
+        }
+        $this->db = new QueryBuilder($modelSettingsClass::tableName());
+
     }
 
     public function __set($field, $value)
     {
-        $fields = $this->tableFields();
+        $settings = $this->modelSettings;
+        if(!method_exists($settings, 'tableName')){
+            throw new RMCException(__CLASS__ . '::tableFields() method not found');
+        }
+        $fields = $settings::tableFields();
         $fieldSettings = isset($fields[$field]) ?  $fields[$field] : false;
         if($fieldSettings){
             $dbType = \Config::get()->database;
@@ -44,9 +54,13 @@ abstract class ORMModelAbstract extends ModelAbstract
 
     public function getByPK($key)
     {
-        $pk = $this->primaryKey();
+        $settings = $this->modelSettings;
+        if(!method_exists($settings, 'primaryKey')){
+            throw new RMCException(__CLASS__ . '::primaryKey() method not found');
+        }
+        $pk = $settings::primaryKey();
         echo $this->db
-            ->where("$pk = :RMC_PK", array('RMC_PK' => $key))
+            ->where("{$pk} = :RMC_PK", array('RMC_PK' => $key))
             ->limit(1)
             ->find();
     }

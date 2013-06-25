@@ -26,6 +26,7 @@ class Bootstrap
             'dataContainer',
             'abstractTemplates',
             'routers',
+            'view',
             '',
         );
         $frameworkPath = \Config::get()->frameworkPath;

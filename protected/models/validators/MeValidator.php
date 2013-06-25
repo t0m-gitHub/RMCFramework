@@ -11,7 +11,6 @@ class MeValidator extends \RMC\DecoratorAbstract
 {
     public static function staticFunction()
     {
-        echo 'validation';
         $model = self::$_modelStatic->_model;
         $model::staticFunction();
     }

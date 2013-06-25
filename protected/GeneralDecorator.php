@@ -14,7 +14,6 @@ class GeneralDecorator extends \RMC\GeneralDecoratorAbstract
     protected function beforeMethodRun($method, $data)
     {
         //ob_start();
-        echo '1';
     }
 
     protected function afterMethodRun($method, $data, $result)
