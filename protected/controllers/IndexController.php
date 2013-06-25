@@ -13,6 +13,6 @@ class IndexController extends \RMC\Controller
 //        $me->lastName = 'Klimenko';
 //        $me->dateOfBirth = DateTime::createFromFormat('d.m.Y', '07.12.1990');
         $me = Me::getInstance();
-        $me::staticFunction();
+        $me->getByPK(1);
     }
 }

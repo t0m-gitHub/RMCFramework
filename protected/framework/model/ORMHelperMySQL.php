@@ -27,7 +27,7 @@ class ORMHelperMySQL extends StaticClass
             $select .= $spec . ' ';
         }
         if(!$fields){
-            return $select . " `{$table}`.* ";
+            return $select . " * ";
         }
         foreach($fields as $field){
             $select .= "`{$table}`.`{$field}` AS {$table}_{$field},";
@@ -85,6 +85,15 @@ class ORMHelperMySQL extends StaticClass
             return null;
         }
         $result = "LIMIT $condition ";
+        return $result;
+    }
+
+    public static function prepareJoinCondition($joinTable, $joinCondition, $joinType)
+    {
+        if(!$joinTable || !($joinCondition) || !($joinType)){
+            return null;
+        }
+        $result = "{$joinType} JOIN {$joinTable} ON {$joinCondition} ";
         return $result;
     }
 

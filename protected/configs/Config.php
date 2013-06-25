@@ -26,6 +26,7 @@ class Config
 
             'modelValidatorsPaths' => array (
                 'models'. DIRECTORY_SEPARATOR . 'validators',
+                'models'. DIRECTORY_SEPARATOR . 'settings',
             ),
 
             'modelsPaths' => array(
