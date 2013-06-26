@@ -60,10 +60,10 @@ class QueryBuilder
 
     public function join( $joinTable, $joinCondition, $alias, $joinType = 'LEFT' )
     {
-        $this->joinCondition = $joinCondition;
-        $this->joinTable = $joinTable;
-        $this->joinType = $joinType;
-        $this->joinAlias = $alias;
+        $this->joinCondition[] = $joinCondition;
+        $this->joinTable[] = $joinTable;
+        $this->joinType[] = $joinType;
+        $this->joinAlias[] = $alias;
         return $this;
     }
 

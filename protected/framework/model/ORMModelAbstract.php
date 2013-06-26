@@ -13,22 +13,12 @@ namespace RMC;
 abstract class ORMModelAbstract extends ModelAbstract
 {
     protected $db;
-    protected $modelSettings;
-
 
     public function __construct()
     {
         parent::__construct();
-        $modelSettingsClass = get_class($this) . SETTINGS_SUFFIX;
-        if (!class_exists($modelSettingsClass)){
-            throw new RMCException('Settings for model ' . get_class($this) . ' not found');
-        }
-        $this->modelSettings = $modelSettingsClass;
-        if(!method_exists($modelSettingsClass, 'tableName')){
-            throw new RMCException(get_class($this) . '::tableName() method not found');
-        }
+        $modelSettingsClass = $this->getModelSettings(get_class($this));
         $this->db = new QueryBuilder($modelSettingsClass::tableName());
-
     }
 
     public function __set($field, $value)
@@ -52,12 +42,30 @@ abstract class ORMModelAbstract extends ModelAbstract
         }
     }
 
-    public function join($relation)
+    public function join($relation, $currentSettings = null)
     {
-        $settings = $this->modelSettings;
-        $settings = $settings::relations();
+        if (strpos($relation, '.') !== false){
+            $relations = explode('.', $relation);
+            $relationsString = '';
+            $relation = end($relations);
+            unset($relations[count($relations) - 1]);
+            foreach ($relations as $key => $rel) {
+                $relationsString .= $rel . ( ($key < count($relations) - 1) ? '.' : '' );
+            }
+
+            $settingsClassThis = $this->getModelSettings(get_class($this));
+            $settingsClass = isset($currentSettings) ?  $currentSettings::relations() : $settingsClassThis::relations();
+            if(!isset($settingsClass[$relation])){
+                throw new RMCException("there's no {$relation} relation for model1 " . $settingsClassThis);
+            }
+            $settingsClass = $settingsClass[$relation]['model'] . SETTINGS_SUFFIX;
+            $this->join($relationsString, $settingsClass);
+
+        }
+        $thisSettings = $this->getModelSettings(get_class($this));
+        $settings = isset($currentSettings) ? $currentSettings::relations() : $thisSettings::relations();
         if(!isset($settings[$relation])){
-            throw new RMCException('there\'s no relation for model ' . get_class($this));
+            throw new RMCException("there's no {$relation} relation for model " . $settingsClass);
         }
         $relationSetting = $settings[$relation];
         $joinedModelSettings = $relationSetting['model'] . SETTINGS_SUFFIX;
@@ -72,7 +80,7 @@ abstract class ORMModelAbstract extends ModelAbstract
 
     public function getByPK($key)
     {
-        $settings = $this->modelSettings;
+        $settings = $this->getModelSettings(get_class($this));
         if(!method_exists($settings, 'primaryKey')){
             throw new RMCException(get_class($this) . '::primaryKey() method not found');
         }
@@ -81,6 +89,19 @@ abstract class ORMModelAbstract extends ModelAbstract
             ->where("{$pk} = :RMC_PK", array('RMC_PK' => $key))
             ->limit(1)
             ->find();
+    }
+
+    private function getModelSettings($modelName)
+    {
+        $modelSettingsClass = $modelName . SETTINGS_SUFFIX;
+        if (!class_exists($modelSettingsClass)){
+            throw new RMCException('Settings for model ' . get_class($this) . ' not found');
+        }
+        if(!method_exists($modelSettingsClass, 'tableName')){
+            throw new RMCException($modelName . '::tableName() method not found');
+        }
+        return $modelSettingsClass;
+
     }
 
 }

@@ -32,6 +32,16 @@ class ResumeSettings extends \RMC\ModelSettingsAbstract
         );
     }
 
-    public static function relations(){}
+    public static function relations()
+    {
+        return array(
+            'jobs' => array(
+                'model' => 'Jobs',
+                'type'  => 'Many',
+                'condition' => 'resume.id = jobs.resumeId',
+                'joinType' => 'LEFT'
+            )
+        );
+    }
 
 }

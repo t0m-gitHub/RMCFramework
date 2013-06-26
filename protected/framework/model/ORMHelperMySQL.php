@@ -93,7 +93,11 @@ class ORMHelperMySQL extends StaticClass
         if(!$joinTable || !($joinCondition) || !($joinType)){
             return null;
         }
-        $result = "{$joinType} JOIN {$joinTable} AS {$alias} ON ({$joinCondition}) ";
+        $result = '';
+        foreach($joinTable as $key => $table){
+            $result .= "{$joinType[$key]} JOIN {$table} AS {$alias[$key]} ON ({$joinCondition[$key]}) ";
+        }
+
         return $result;
     }
 

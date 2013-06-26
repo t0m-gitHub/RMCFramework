@@ -51,7 +51,7 @@ class MeSettings extends \RMC\ModelSettingsAbstract
         return array(
             'resume' => array(
                 'model' => 'Resume',
-                'type'  => 'hasOne',
+                'type'  => 'One',
                 'condition' => 'resume.id = me.resumeId',
                 'joinType' => 'LEFT'
             )

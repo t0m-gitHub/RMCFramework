@@ -13,6 +13,6 @@ class IndexController extends \RMC\Controller
 //        $me->lastName = 'Klimenko';
 //        $me->dateOfBirth = DateTime::createFromFormat('d.m.Y', '07.12.1990');
         $me = Me::getInstance();
-        $me->join('resume')->getByPK(1);
+        $me->join('resume.jobs')->getByPK(1);
     }
 }
