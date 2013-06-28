@@ -55,7 +55,10 @@ class QueryBuilder
         $orderBy = $ormHelper::prepareOrderByCondition($this->orderBy);
         $limit = $ormHelper::prepareLimitCondition($this->limit);
         $join = $ormHelper::prepareJoinCondition($this->joinTable, $this->joinCondition, $this->joinAlias, $this->joinType);
-        return $select . $from . $join. $where . $groupBy . $having . $orderBy . $limit  ;
+        $query = $select . $from . $join. $where . $groupBy . $having . $orderBy . $limit  ;
+        $db = DatabaseInterface::getInstance();
+       // die($query);
+        return $db->run($query, $this->whereDataArray);
     }
 
     public function join( $joinTable, $joinCondition, $alias, $joinType = 'LEFT' )

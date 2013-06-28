@@ -30,7 +30,7 @@ class ORMHelperMySQL extends StaticClass
             return $select . " * ";
         }
         foreach($fields as $field){
-            $select .= "`{$table}`.`{$field}` AS {$table}_{$field},";
+            $select .= "`{$table}`.`{$field}` AS `{$table}_{$field}`,";
         }
         $select[strlen($select) - 1] = ' ';
         return $select;
@@ -95,7 +95,7 @@ class ORMHelperMySQL extends StaticClass
         }
         $result = '';
         foreach($joinTable as $key => $table){
-            $result .= "{$joinType[$key]} JOIN {$table} AS {$alias[$key]} ON ({$joinCondition[$key]}) ";
+            $result .= "{$joinType[$key]} JOIN `{$table}` AS `{$alias[$key]}` ON ({$joinCondition[$key]}) ";
         }
 
         return $result;

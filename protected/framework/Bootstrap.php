@@ -27,6 +27,8 @@ class Bootstrap
             'abstractTemplates',
             'routers',
             'view',
+            'buildinViews',
+            'buildinControllers',
             '',
         );
         $frameworkPath = \Config::get()->frameworkPath;
@@ -35,9 +37,10 @@ class Bootstrap
         $includePaths = \Config::get()->includePaths;
         $controllersPaths = \Config::get()->controllersPaths;
         $modelsPaths = \Config::get()->modelsPaths;
-        $modelValidatorsPaths = \Config::get()->modelValidatorsPaths;
+        $modelsSettingsPaths = \Config::get()->modelSettingsPaths;
+        $modelsValidatorsPaths = \Config::get()->modelValidatorsPaths;
 
-        $paths = array_merge($includePaths, $controllersPaths, $modelsPaths, $frameworkFolders, $modelValidatorsPaths);
+        $paths = array_merge($includePaths, $controllersPaths, $modelsPaths, $frameworkFolders, $modelsSettingsPaths, $modelsValidatorsPaths);
         foreach($paths as $key => $path){
             $file =  $path . DIRECTORY_SEPARATOR . $class . '.php';
             if (file_exists($basePath . DIRECTORY_SEPARATOR  .$file)){
@@ -61,15 +64,15 @@ class Bootstrap
         try
         {
             require_once(\Config::get()->frameworkPath . DIRECTORY_SEPARATOR . 'Constants.php');
-
             Session::getInstance();
+            if (isset(\Config::get()->database)){
+                DatabaseInterface::getInstance();
+            }
             RequestRouter::run(!empty($_REQUEST[HTTP_GET_ACTION_PARAMETER]) ? $_REQUEST[HTTP_GET_ACTION_PARAMETER] : null);
 
         } catch (\Exception $e) {
-
             ExceptionRouter::process($e);
             exit;
-
         }
 
     }

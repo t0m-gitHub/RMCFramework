@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: root
- * Date: 25.06.13
- * Time: 11:25
- * To change this template use File | Settings | File Templates.
- */
+
 
 class MeSettings extends \RMC\ModelSettingsAbstract
 {
     public static function tableName()
     {
-        return 'me';
+        return 'Me';
     }
 
     public static function primaryKey()
@@ -22,27 +16,11 @@ class MeSettings extends \RMC\ModelSettingsAbstract
     public static function tableFields()
     {
         return array(
-            'id'         => array(
-                'type' => 'int'
-            ),
-            'firstName'  => array(
-                'type'      => 'varchar',
-                'maxLength' => 10,
-            ),
-            'secondName' => array(
-                'type'      => 'varchar',
-                'maxLength' => 100,
-            ),
-            'lastName'   => array(
-                'type'      => 'varchar',
-                'maxLength' => 100,
-            ),
-            'dateOfBirth'=> array(
-                'type'      => 'dateTime'
-            ),
-            'resumeId' => array(
-                'type' => 'int'
-            )
+            'id' => array('maxLength' => 1), 
+            'firstName' => array('maxLength' => 50), 
+            'middleName' => array('maxLength' => 50), 
+            'lastName' => array('maxLength' => 50), 
+            'dayOfBirth' => array('maxLength' => 0), 
         );
     }
 
@@ -52,7 +30,13 @@ class MeSettings extends \RMC\ModelSettingsAbstract
             'resume' => array(
                 'model' => 'Resume',
                 'type'  => 'One',
-                'condition' => 'resume.id = me.resumeId',
+                'condition' => 'resume.owner = Me.id',
+                'joinType' => 'LEFT'
+            ),
+            'languages' => array(
+                'model' => 'Languages',
+                'type'  => 'Many',
+                'condition' => 'languages.owner = Me.id',
                 'joinType' => 'LEFT'
             )
         );

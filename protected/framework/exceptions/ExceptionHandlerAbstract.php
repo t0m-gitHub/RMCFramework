@@ -14,7 +14,11 @@ abstract class ExceptionHandlerAbstract extends StaticClass
 {
     public static function process( \Exception $e )
     {
-        list($namespace, $class) = explode('\\', get_class($e));
+        $class = get_class($e);
+        if(strpos($class,'\\')){
+            list($namespace, $class) = explode('\\', $class);
+        }
+
         $handleMethod = 'handle' . $class;
         if (method_exists(get_called_class(), $handleMethod)){
             static::$handleMethod($e);

@@ -10,9 +10,9 @@
 namespace RMC;
 
 
-class Session extends Singleton
+class Session extends ClosedConstructor
 {
-
+    private static $instance;
     private static $dataContainerType;
 
     public static function setDataContainerType($dataContainerType)
@@ -23,5 +23,13 @@ class Session extends Singleton
     public static function getDataContainerType()
     {
         return isset(static::$dataContainerType) ? static::$dataContainerType : false;
+    }
+
+    public static function getInstance()
+    {
+        if (!isset(self::$instance)){
+            self::$instance = new self();
+        }
+        return self::$instance;
     }
 }

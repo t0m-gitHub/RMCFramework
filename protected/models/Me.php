@@ -1,10 +1,11 @@
 <?php
 /**
-* @property string firstName
-* @property string secondName
-* @property string lastName
-* @property DateTime dateOfBirth
- */
+ * @property mixed id 
+ * @property mixed firstName 
+ * @property mixed middleName 
+ * @property mixed lastName 
+ * @property mixed dayOfBirth 
+*/
 
 class Me extends \RMC\ORMModelAbstract
 {

@@ -1,11 +1,11 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: t0m
- * Date: 25.06.13
- * Time: 20:10
- * To change this template use File | Settings | File Templates.
- */
+ * @property mixed id 
+ * @property mixed isActive 
+ * @property mixed title 
+ * @property mixed expectations 
+ * @property mixed owner 
+*/
 
 class Resume extends \RMC\ORMModelAbstract
 {

@@ -12,13 +12,13 @@ namespace RMC;
 
 class Singleton extends ClosedConstructor
 {
-    private static $instance;
+    protected static $instance;
 
     public static function getInstance()
     {
-        if (!isset(self::$instance)){
-            self::$instance = new self();
+        if (!isset(static::$instance)){
+            static::$instance = new static();
         }
-        return self::$instance;
+        return static::$instance;
     }
 }

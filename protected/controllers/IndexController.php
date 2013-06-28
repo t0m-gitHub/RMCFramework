@@ -8,11 +8,15 @@ class IndexController extends \RMC\Controller
 {
     public function indexAction()
     {
-//        $me = Me::getInstance();
-//        $me->firstName = 'Alex';
-//        $me->lastName = 'Klimenko';
-//        $me->dateOfBirth = DateTime::createFromFormat('d.m.Y', '07.12.1990');
         $me = Me::getInstance();
-        $me->join('resume.jobs')->getByPK(1);
+        var_export($me->join('resume.jobs.tasks')->getByPK(1));
+        //echo $this->render('index');
+    }
+
+    public function createModelAction()
+    {
+
+        $tableName = $_POST['tableName'];
+        RMC\ModelGenerator::generate($tableName);
     }
 }

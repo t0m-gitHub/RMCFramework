@@ -42,30 +42,35 @@ abstract class ORMModelAbstract extends ModelAbstract
         }
     }
 
-    public function join($relation, $currentSettings = null)
+    public function join($relation)
     {
-        if (strpos($relation, '.') !== false){
-            $relations = explode('.', $relation);
-            $relationsString = '';
-            $relation = end($relations);
-            unset($relations[count($relations) - 1]);
-            foreach ($relations as $key => $rel) {
-                $relationsString .= $rel . ( ($key < count($relations) - 1) ? '.' : '' );
-            }
-
-            $settingsClassThis = $this->getModelSettings(get_class($this));
-            $settingsClass = isset($currentSettings) ?  $currentSettings::relations() : $settingsClassThis::relations();
-            if(!isset($settingsClass[$relation])){
-                throw new RMCException("there's no {$relation} relation for model1 " . $settingsClassThis);
-            }
-            $settingsClass = $settingsClass[$relation]['model'] . SETTINGS_SUFFIX;
-            $this->join($relationsString, $settingsClass);
-
+        if(!$relation){
+            throw new RMCException('Relation is undefined');
         }
-        $thisSettings = $this->getModelSettings(get_class($this));
-        $settings = isset($currentSettings) ? $currentSettings::relations() : $thisSettings::relations();
+        $relationsArray = explode('.', $relation);
+        $modelSettings = $this->getModelSettings(get_class($this));
+        foreach($relationsArray as $key => $currentRelation){
+            if($key == 0){
+                $this->makeJoin($currentRelation, $modelSettings);
+            } else {
+                $oldSettings = $modelSettings::relations();
+                $modelName = $oldSettings[$relationsArray[$key - 1]];
+                $modelSettings = $this->getModelSettings($modelName['model']);
+                $this->makeJoin($currentRelation, $modelSettings);
+            }
+        }
+        return $this;
+    }
+
+
+    private function makeJoin($relation, $currentSettings)
+    {
+        if(!class_exists($currentSettings)){
+            throw new RMCException("{$currentSettings} doesn't exist");
+        }
+        $settings = $currentSettings::relations();
         if(!isset($settings[$relation])){
-            throw new RMCException("there's no {$relation} relation for model " . $settingsClass);
+            throw new RMCException("there's no {$relation} relation in " . $settings);
         }
         $relationSetting = $settings[$relation];
         $joinedModelSettings = $relationSetting['model'] . SETTINGS_SUFFIX;
@@ -85,8 +90,9 @@ abstract class ORMModelAbstract extends ModelAbstract
             throw new RMCException(get_class($this) . '::primaryKey() method not found');
         }
         $pk = $settings::primaryKey();
-        echo $this->db
-            ->where("{$pk} = :RMC_PK", array('RMC_PK' => $key))
+        $db = $settings::tableName();
+        return $this->db
+            ->where("`{$db}`.`{$pk}` = :RMC_PK", array(':RMC_PK' => $key))
             ->limit(1)
             ->find();
     }

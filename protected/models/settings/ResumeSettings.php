@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by JetBrains PhpStorm.
- * User: t0m
- * Date: 25.06.13
- * Time: 20:13
- * To change this template use File | Settings | File Templates.
- */
+
 
 class ResumeSettings extends \RMC\ModelSettingsAbstract
 {
     public static function tableName()
     {
-        return 'resume';
+        return 'Resume';
     }
 
     public static function primaryKey()
@@ -22,13 +16,11 @@ class ResumeSettings extends \RMC\ModelSettingsAbstract
     public static function tableFields()
     {
         return array(
-            'id'         => array(
-                'type' => 'int'
-            ),
-            'currentJob'  => array(
-                'type'      => 'varchar',
-                'maxLength' => 10,
-            )
+            'id' => array('maxLength' => 3), 
+            'isActive' => array('maxLength' => 1), 
+            'title' => array('maxLength' => 500), 
+            'expectations' => array('maxLength' => 0), 
+            'owner' => array('maxLength' => 1), 
         );
     }
 
@@ -38,10 +30,15 @@ class ResumeSettings extends \RMC\ModelSettingsAbstract
             'jobs' => array(
                 'model' => 'Jobs',
                 'type'  => 'Many',
-                'condition' => 'resume.id = jobs.resumeId',
+                'condition' => 'jobs.owner = resume.id',
+                'joinType' => 'LEFT'
+            ),
+            'skills' => array(
+                'model' => 'Skills',
+                'type'  => 'Many',
+                'condition' => 'skills.owner = resume.id',
                 'joinType' => 'LEFT'
             )
         );
     }
-
 }
