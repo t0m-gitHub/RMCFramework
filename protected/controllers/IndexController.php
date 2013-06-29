@@ -9,7 +9,7 @@ class IndexController extends \RMC\Controller
     public function indexAction()
     {
         $me = Me::getInstance();
-        var_export($me->join('resume.jobs.tasks')->getByPK(1));
+        var_export($me->join(array('resume.jobs.tasks','resume.skills', 'languages'))->getByPK(1));
         //echo $this->render('index');
     }
 

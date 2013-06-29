@@ -13,10 +13,11 @@ namespace RMC;
 abstract class ORMModelAbstract extends ModelAbstract
 {
     protected $db;
-
+    protected $usedRelations;
     public function __construct()
     {
         parent::__construct();
+        $this->usedRelations = array();
         $modelSettingsClass = $this->getModelSettings(get_class($this));
         $this->db = new QueryBuilder($modelSettingsClass::tableName());
     }
@@ -42,22 +43,26 @@ abstract class ORMModelAbstract extends ModelAbstract
         }
     }
 
-    public function join($relation)
+    public function join($relations = array())
     {
-        if(!$relation){
-            throw new RMCException('Relation is undefined');
-        }
-        $relationsArray = explode('.', $relation);
-        $modelSettings = $this->getModelSettings(get_class($this));
-        foreach($relationsArray as $key => $currentRelation){
-            if($key == 0){
-                $this->makeJoin($currentRelation, $modelSettings);
-            } else {
-                $oldSettings = $modelSettings::relations();
-                $modelName = $oldSettings[$relationsArray[$key - 1]];
-                $modelSettings = $this->getModelSettings($modelName['model']);
-                $this->makeJoin($currentRelation, $modelSettings);
+        foreach ($relations as $relation) {
+            $relationsArray = explode('.', $relation);
+            $modelSettings = $this->getModelSettings(get_class($this));
+            foreach($relationsArray as $key => $currentRelation){
+                if(in_array($currentRelation, $this->usedRelations)){
+                    continue;
+                }
+                if($key == 0){
+                    $this->makeJoin($currentRelation, $modelSettings);
+                } else {
+                    $oldSettings = $modelSettings::relations();
+                    $modelName = $oldSettings[$relationsArray[$key - 1]];
+                    $modelSettings = $this->getModelSettings($modelName['model']);
+                    $this->makeJoin($currentRelation, $modelSettings);
+                }
+                $this->usedRelations[] = $currentRelation;
             }
+
         }
         return $this;
     }
