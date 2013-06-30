@@ -34,6 +34,12 @@ abstract class GeneralDecoratorAbstract extends DecoratorAbstract
         return static::afterMethodRun($method, $data, $methodOutput);
     }
 
+    public function __isset($prop)
+    {
+        $model = $this->getModel();
+        return isset($model->$prop);
+    }
+
     protected function afterMethodRun($method, $data, $methodOutput){
         return $methodOutput;
     }

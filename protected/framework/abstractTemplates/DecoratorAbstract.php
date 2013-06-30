@@ -30,6 +30,11 @@ abstract class DecoratorAbstract
         return call_user_func_array(array($this->_model, $method), $params);
     }
 
+    public function __get($property)
+    {
+        return $this->_model->$property;
+    }
+
     public static function __callStatic($method, $params)
     {
         return call_user_func_array(array(static::$_modelStatic, $method), $params);

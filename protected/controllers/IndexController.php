@@ -8,8 +8,9 @@ class IndexController extends \RMC\Controller
 {
     public function indexAction()
     {
-        $me = Me::getInstance();
-        var_export($me->join(array('resume.jobs.tasks','resume.skills', 'languages'))->getByPK(1));
+        $resume = Resume::getInstance();
+
+        print_r($resume->getMyResume()[0]->jobs[1]->name);
         //echo $this->render('index');
     }
 

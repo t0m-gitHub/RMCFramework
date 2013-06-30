@@ -13,8 +13,10 @@ namespace RMC;
 class QueryBuilder
 {
     private $tableName;
+    private $tableAlias;
     private $selectCondition;
     private $selectSpecs;
+    private $selectAlias;
     private $where;
     private $whereDataArray;
     private $groupBy;
@@ -44,11 +46,20 @@ class QueryBuilder
         $this->ormHelper = $ormHelper;
     }
 
+    public function setTableAlias($alias)
+    {
+        $this->tableAlias = $alias;
+    }
+
+    public function getTableAlias()
+    {
+        return $this->tableAlias;
+    }
     public function find()
     {
         $ormHelper = $this->ormHelper;
-        $select = $ormHelper::prepareSelectCondition($this->tableName, isset($this->selectCondition) ? $this->selectCondition : array(), isset($this->selectSpecs) ? $this->selectSpecs : array());
-        $from = $ormHelper::prepareFromCondition(isset($this->tableName) ? $this->tableName : null);
+        $select = $ormHelper::prepareSelectCondition(isset($this->selectCondition) ? $this->selectCondition : array(), isset($this->selectSpecs) ? $this->selectSpecs : array());
+        $from = $ormHelper::prepareFromCondition(isset($this->tableName) ? $this->tableName : null, isset($this->tableAlias) ? $this->tableAlias : null);
         $where = $ormHelper::prepareWhereCondition($this->where);
         $groupBy = $ormHelper::prepareGroupByCondition($this->groupBy);
         $having = $ormHelper::prepareHavingCondition($this->having);
@@ -102,10 +113,10 @@ class QueryBuilder
         return $this;
     }
 
-    public function select( array $fields, array $specs = array() )
+    public function select($fields, $alias, array $specs = array() )
     {
-        $this->selectCondition = $fields;
         $this->selectSpecs = $specs;
+        $this->selectCondition[$alias] =  $fields ;
         return $this;
     }
 

@@ -4,7 +4,9 @@
  * @property mixed firstName 
  * @property mixed middleName 
  * @property mixed lastName 
- * @property mixed dayOfBirth 
+ * @property Resume resume
+ * @property mixed dayOfBirth
+ * @property Languages[] languages
 */
 
 class Me extends \RMC\ORMModelAbstract
@@ -16,4 +18,14 @@ class Me extends \RMC\ORMModelAbstract
     {
         return parent::getInstance();
     }
+
+    /**
+     * @return Me
+     */
+    public function getFullModel()
+    {
+        $me = $this->join(array('resume.jobs.tasks','resume.skills', 'languages'))->getByPK(1);
+        return $me;
+    }
+
 }

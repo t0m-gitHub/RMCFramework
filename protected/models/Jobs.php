@@ -6,6 +6,7 @@
  * @property mixed startDate 
  * @property mixed quitDate 
  * @property mixed owner 
+ * @property Tasks[] tasks
 */
 
 class Jobs extends \RMC\ORMModelAbstract

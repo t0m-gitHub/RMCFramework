@@ -33,6 +33,12 @@ class ResumeSettings extends \RMC\ModelSettingsAbstract
                 'condition' => 'jobs.owner = resume.id',
                 'joinType' => 'LEFT'
             ),
+            'me' => array(
+                'model' => 'Me',
+                'type'  => 'One',
+                'condition' => 'me.id = resume.owner',
+                'joinType' => 'LEFT'
+            ),
             'skills' => array(
                 'model' => 'Skills',
                 'type'  => 'Many',

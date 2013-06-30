@@ -36,13 +36,13 @@ class DatabaseInterface extends ClosedConstructor
 
     public function run($sql, $params = array())
     {
-        die($sql);
+        //die($sql);
         $statement = $this->pdo->prepare($sql);
         foreach($params as $key => $value){
             $statement->bindParam($key, $value);
         }
         $statement->execute();
-        $result = $statement->fetchAll();
+        $result = $statement->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
     }
 }

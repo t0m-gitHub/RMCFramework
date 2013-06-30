@@ -14,31 +14,33 @@ class ORMHelperMySQL extends StaticClass
 {
     public static function prepareField($field, $value, $settings)
     {
-        if(isset($settings['maxLength']) && (mb_strlen($value) > $settings['maxLength'])){
+        if(isset($settings['maxLength']) && (mb_strlen($value) > $settings['maxLength']) && $settings['maxLength'] != 0){
             throw new RMCException("{$field} max allowed length is {$settings['maxLength']}");
         }
         return $field;
     }
 
-    public static function prepareSelectCondition($table, array $fields = array(), array $specs = array())
+    public static function prepareSelectCondition(array $condition, array $specs = array())
     {
         $select = 'SELECT ';
         foreach($specs as $spec){
             $select .= $spec . ' ';
         }
-        if(!$fields){
+        if(!$condition){
             return $select . " * ";
         }
-        foreach($fields as $field){
-            $select .= "`{$table}`.`{$field}` AS `{$table}_{$field}`,";
+        foreach($condition as $alias => $fields){
+            foreach($fields as $field){
+                $select .= "`{$alias}`.`{$field}` AS `{$alias}_{$field}`,";
+            }
         }
         $select[strlen($select) - 1] = ' ';
         return $select;
     }
 
-    public static function prepareFromCondition($tableName)
+    public static function prepareFromCondition($tableName, $tableAlias = null)
     {
-        $from = "FROM `$tableName` ";
+        $from = "FROM `$tableName` " . (isset($tableAlias) ? "AS `$tableAlias` " : '');
         return $from;
     }
 
