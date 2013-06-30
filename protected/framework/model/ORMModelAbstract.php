@@ -254,6 +254,8 @@ abstract class ORMModelAbstract extends ModelAbstract
                 $model->$property = $resultArray;
             } elseif(isset($propertyValue->owner) && $model->id == $propertyValue->owner){
                 $model->$property = $propertyValue;
+            } elseif(!isset($propertyValue->owner)){
+                $model->$property = $propertyValue;
             }
 
             return $model;

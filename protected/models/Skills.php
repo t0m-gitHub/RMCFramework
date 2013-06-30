@@ -16,4 +16,9 @@ class Skills extends \RMC\ORMModelAbstract
     {
         return parent::getInstance();
     }
+
+    public function getMySkills()
+    {
+        //$this->setMainTableAlias('skills')->join(array(''))
+    }
 }

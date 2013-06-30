@@ -10,7 +10,7 @@ class IndexController extends \RMC\Controller
     {
         $resume = Resume::getInstance();
 
-        print_r($resume->getMyResume()[0]->jobs[1]->name);
+        print_r($resume->getMyJobsFullInfo()[1]->tasks[0]->taskName);
         //echo $this->render('index');
     }
 

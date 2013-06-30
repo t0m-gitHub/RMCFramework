@@ -30,9 +30,9 @@ abstract class RemoteModelCallControllerAbstract
         if(!method_exists($modelName, $methodName)){
             throw  new UserException('Model method is invalid');
         }
-        if (!is_array($modelData->modelProperties)){
-            throw new UserException('Invalid model properties');
-        }
+//        if (!is_array($modelData->modelProperties)){
+//            throw new UserException('Invalid model properties');
+//        }
 
         if ($modelData->modelProperties){
             foreach ($modelData->modelProperties as $property => $value) {

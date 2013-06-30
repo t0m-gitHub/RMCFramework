@@ -22,10 +22,21 @@ class Me extends \RMC\ORMModelAbstract
     /**
      * @return Me
      */
-    public function getFullModel()
+    public function getFullInfo()
     {
         $me = $this->join(array('resume.jobs.tasks','resume.skills', 'languages'))->getByPK(1);
         return $me;
     }
+
+    /**
+     * @return Me
+     */
+    public function getBaseInfo()
+    {
+        $me = $this->join(array('languages'))->getByPK(1);
+        return $me;
+    }
+
+
 
 }
