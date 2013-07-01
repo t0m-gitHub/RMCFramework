@@ -18,12 +18,18 @@ class RequestRouter extends StaticClass
             static::createDefaultModelAndRunDefaultAction();
         }
 
-        if ($actionPath == REMOTE_MODEL_CALL_ACTION_NAME){
-            $dataType = !empty($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER]) ? filter_var($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER], FILTER_SANITIZE_STRING) : DEFAULT_DATA_TYPE;
-            static::remoteModelCall($dataType);
+        switch($actionPath){
+            case REMOTE_MODEL_CALL_ACTION_NAME:
+                $dataType = !empty($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER]) ? filter_var($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER], FILTER_SANITIZE_STRING) : DEFAULT_DATA_TYPE;
+                static::remoteModelCall($dataType);
+                break;
+            case LANGUAGE_CHANGE_ACTION_NAME:
+                static::languageChange();
+                break;
         }
-        if( strpos($actionPath, ROTE_SEPARATOR_CHAR) ){
-            list($controller, $action) = explode(ROTE_SEPARATOR_CHAR, $actionPath);
+
+        if( strpos($actionPath, ROUTE_SEPARATOR_CHAR) ){
+            list($controller, $action) = explode(ROUTE_SEPARATOR_CHAR, $actionPath);
         } else {
             $controller = $actionPath;
         }
@@ -55,6 +61,15 @@ class RequestRouter extends StaticClass
     private function runDefaultAction( $controller )
     {
         static::createControllerAndRunAction($controller, DEFAULT_ACTION_NAME . ACTIONS_SUFFIX);
+    }
+
+    private function languageChange()
+    {
+        $lang = $_REQUEST['lang'];
+        Session::set('lang', $lang);
+        $location = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'index.php';
+        header("location: {$location} ");
+        exit;
     }
 
     private function remoteModelCall($dataType)

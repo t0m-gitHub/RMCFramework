@@ -15,7 +15,6 @@ class JSONSerializer implements SerializerInterface
     public function serialize(DataContainerResponse $data)
     {
         $responseArray = $this->serializeObjectRecursive($data);
-        var_export($responseArray);die;
         $return  = json_encode($responseArray);
         return $return;
     }

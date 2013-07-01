@@ -1,4 +1,6 @@
-<form action = 'index.php?action=Index/CreateModel' method = POST>
-    <input type = 'text' name = 'tableName'>
-    <input type = 'submit'>
-</form>
+<script language="javascript">
+    $(function() {
+        var me = new RMC.Me();
+        console.log(me.getBaseInfo());
+    })
+</script>

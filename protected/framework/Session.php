@@ -13,23 +13,41 @@ namespace RMC;
 class Session extends ClosedConstructor
 {
     private static $instance;
-    private static $dataContainerType;
 
     public static function setDataContainerType($dataContainerType)
     {
-        static::$dataContainerType = $dataContainerType;
+        static::$instance->dataContainerType = $dataContainerType;
     }
 
     public static function getDataContainerType()
     {
-        return isset(static::$dataContainerType) ? static::$dataContainerType : false;
+        return isset(static::$instance->dataContainerType) ? static::$instance->dataContainerType : false;
     }
 
     public static function getInstance()
     {
         if (!isset(self::$instance)){
             self::$instance = new self();
+            session_start();
         }
+        self::$instance->params = $_SESSION;
         return self::$instance;
+    }
+
+    public static function get($param)
+    {
+        if (!isset(self::$instance)){
+            return false;
+        }
+        return self::$instance->params[$param];
+
+    }
+
+    public static function set($param, $value)
+    {
+        if (!isset(self::$instance)){
+            return false;
+        }
+        $_SESSION[$param] = $value;
     }
 }
