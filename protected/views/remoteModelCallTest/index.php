@@ -1,14 +1,9 @@
-<form action = 'index.php?action=RemoteModelCallTest' method = POST>
+<form action = '<?= $_SERVER["REQUEST_URI"]?>' method = POST>
     <textarea name = 'request' cols="100" rows=20><? if(isset($_POST['request'])): ?>
 <?=$_POST['request'] ?>
         <? else: ?>{
-    "modelName": "TestModel",
-    "calledMethod": "testMethod",
-    "modelProperties":
-    {
-       "testProperty": "Hello World"
-    }
-
+    "modelName": "Me",
+    "calledMethod": "getBaseInfo"
 }
         <? endif ?>
     </textarea>

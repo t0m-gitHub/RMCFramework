@@ -42,7 +42,10 @@ abstract class RemoteModelCallControllerAbstract
 
         $methodResponse = $model->$methodName(isset($modelData->methodProperties) ? $modelData->methodProperties : null);
         if(!($methodResponse instanceof DataContainerResponse)){
-            throw new RMCException("Model {$modelName} called from remote but response is not instance of RMC\\DataContainerResponse");
+            $dataContainer = new DataContainerResponse();
+            $dataContainer->success = true;
+            $dataContainer->data = $methodResponse;
+            $methodResponse = $dataContainer;
         }
         return $methodResponse;
     }

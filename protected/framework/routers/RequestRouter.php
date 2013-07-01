@@ -67,7 +67,7 @@ class RequestRouter extends StaticClass
         }
         $controller = new $remoteModelCallController();
         $response = $controller->run($dataType,$data);
-        echo $response->getSerializedData('JSON');
+        echo $response->getSerializedData(Session::getDataContainerType());
         exit;
     }
 }

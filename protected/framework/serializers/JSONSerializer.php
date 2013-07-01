@@ -14,10 +14,8 @@ class JSONSerializer implements SerializerInterface
 {
     public function serialize(DataContainerResponse $data)
     {
-        $responseArray = array();
-        foreach($data as $key => $value){
-            $responseArray[$key] = $value;
-        }
+        $responseArray = $this->serializeObjectRecursive($data);
+        var_export($responseArray);die;
         $return  = json_encode($responseArray);
         return $return;
     }
@@ -26,5 +24,20 @@ class JSONSerializer implements SerializerInterface
     {
         $array = json_decode($data, true);
         return (array)$array;
+    }
+
+    private function serializeObjectRecursive($object)
+    {
+        $result = array();
+        if($object instanceof DecoratorAbstract){
+            $object = $object->getModel();
+        }
+        foreach($object as $key => $objectProperty){
+            if(is_object($objectProperty) || is_array($objectProperty)){
+                $objectProperty = $this->serializeObjectRecursive($objectProperty);
+            }
+            $result[$key] = $objectProperty;
+        }
+        return $result;
     }
 }
