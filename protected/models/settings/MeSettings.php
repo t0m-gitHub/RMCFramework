@@ -21,6 +21,7 @@ class MeSettings extends \RMC\ModelSettingsAbstract
             'middleName' => array('maxLength' => 50), 
             'lastName' => array('maxLength' => 50), 
             'dayOfBirth' => array('maxLength' => 0), 
+            'city' => array('maxLength' => 255),
         );
     }
 

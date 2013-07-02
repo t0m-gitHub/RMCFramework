@@ -12,6 +12,8 @@ class Config
 
             'basePath' => __DIR__ . DIRECTORY_SEPARATOR . '..',
 
+            'baseUrl'  => 'http://127.0.0.1/RMCFramework/',
+
             'frameworkPath' => __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'framework',
 
             'includePaths' => array(),

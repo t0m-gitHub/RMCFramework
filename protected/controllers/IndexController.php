@@ -8,13 +8,26 @@ class IndexController extends \RMC\Controller
 {
     public function indexAction()
     {
-        $this->view->setPageTitle('PHP Developer. Klimenko Alex.');
-        $resume = Resume::getInstance();
-        $skills = $resume->getMySkills();
+        //\RMC\ModelGenerator::generate('Technologies');die;
+        $me = Me::getInstance()->getFullInfo();
+
         $skillsString = '';
-        foreach($skills as $skill){
+        $skillsArray = array();
+        foreach($me->resume->skills as $skill){
             $skillsString .= ", {$skill->name}";
+            $skillsArray[$skill->level][] = array(
+                'name' => $skill->name,
+                'description' => $skill->description,
+            );
         }
-        echo $this->render('index' ,array('skills' => $skillsString));
+        $this->view->setPageTitle('PHP Developer. Klimenko Alex.');
+        echo $this->view->render('index' ,array(
+            'skills' => $skillsString,
+            'skillsArray' => $skillsArray,
+            'age' => $me->getAge(),
+            'name' => $me->firstName . ' ' . $me->lastName,
+            'city' => $me->city,
+            'technologies' => $me->resume->technologies,
+        ));
     }
 }

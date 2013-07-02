@@ -7,6 +7,7 @@
  * @property mixed owner 
  * @property Jobs[] jobs
  * @property Skills[] skills
+ * @property Technologies[] technologies
 */
 
 class Resume extends \RMC\ORMModelAbstract

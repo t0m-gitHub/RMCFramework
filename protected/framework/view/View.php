@@ -45,6 +45,7 @@ class View
         foreach($paths as $path){
             $view = \Config::get()->basePath . DIRECTORY_SEPARATOR . $path . DIRECTORY_SEPARATOR . $controllerName . DIRECTORY_SEPARATOR . $viewName . '.' . TEMPLATE_EXTENSION;
             if (file_exists($view)){
+                extract($params, EXTR_OVERWRITE);
                 require($view);
             } else {
                 throw new RMCException("View {$viewName} not found");

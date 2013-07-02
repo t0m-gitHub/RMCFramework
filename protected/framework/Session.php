@@ -39,7 +39,7 @@ class Session extends ClosedConstructor
         if (!isset(self::$instance)){
             return false;
         }
-        return self::$instance->params[$param];
+        return isset(self::$instance->params[$param]) ? self::$instance->params[$param] : false;;
 
     }
 

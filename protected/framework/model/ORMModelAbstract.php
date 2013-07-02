@@ -1,6 +1,7 @@
 <?php
 /**
  * This model concept is just a tryout. It's pretty ugly, broken and should be rewritten.
+ * TODO: make able to run static methods that use ORM
  */
 
 namespace RMC;
@@ -286,8 +287,6 @@ abstract class ORMModelAbstract extends ModelAbstract
                         $internalModel[$key]->$property = $propertyValue;
                     }
                 }
-
-
             }
         }
 

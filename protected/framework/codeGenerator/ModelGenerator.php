@@ -59,9 +59,4 @@ class ModelGenerator extends StaticClass
         file_put_contents(\Config::get()->basePath . DIRECTORY_SEPARATOR . $modelValidatorsPath[0] . DIRECTORY_SEPARATOR . $tableName . VALIDATORS_SUFFIX . '.php', $modelValidator);
         //echo $modelValidator;
     }
-
-    private function generateModel()
-    {
-
-    }
 }

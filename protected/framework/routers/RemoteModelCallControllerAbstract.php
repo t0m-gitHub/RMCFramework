@@ -30,17 +30,18 @@ abstract class RemoteModelCallControllerAbstract
         if(!method_exists($modelName, $methodName)){
             throw  new UserException('Model method is invalid');
         }
-//        if (!is_array($modelData->modelProperties)){
-//            throw new UserException('Invalid model properties');
-//        }
 
         if ($modelData->modelProperties){
             foreach ($modelData->modelProperties as $property => $value) {
                 $model->$property = $value;
             }
         }
+        if(!empty($modelData->methodProperties)){
+            $methodResponse = call_user_func_array(array($model, $methodName), $modelData->methodProperties);
+        } else {
+            $methodResponse = call_user_func(array($model, $methodName));
+        }
 
-        $methodResponse = $model->$methodName(isset($modelData->methodProperties) ? $modelData->methodProperties : null);
         if(!($methodResponse instanceof DataContainerResponse)){
             $dataContainer = new DataContainerResponse();
             $dataContainer->success = true;

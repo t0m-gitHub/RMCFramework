@@ -3,10 +3,10 @@
         DIRECTORY_SEPARATOR . 'layout' .
         DIRECTORY_SEPARATOR . 'header.php'); ?>
 
-<content>
+<div class = 'container'>
     <?= $_content ?>
 
-</content>
+</div>
 
 <? require_once(\Config::get()->basePath .
     DIRECTORY_SEPARATOR . \Config::get()->viewsPaths[0] .

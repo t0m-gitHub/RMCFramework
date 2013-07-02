@@ -14,4 +14,5 @@ define('HTTP_GET_DATA_TYPE_PARAMETER',  'dataContainer');
 define('RELATION_TYPE_MANY',            'Many');
 define('RELATION_TYPE_ONE',             'One');
 define('DEFAULT_DATA_TYPE',             'JSON');
-define('ROUTE_SEPARATOR_CHAR',             '/');
+define('ROUTE_SEPARATOR_CHAR',          '/');
+define('DB_DATE_FORMAT',                'Y-m-d H:i:s');

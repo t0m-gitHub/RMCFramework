@@ -17,16 +17,16 @@ class ExceptionHandler extends RMC\DefaultExceptionHandler
     protected function handleRMCException( \RMC\RMCException $e )
     {
         echo  $e->getMessage();
-        parent::handleRMCException($e);
+        //parent::handleRMCException($e);
     }
 
     protected function handleException( \Exception $e )
     {
-        parent::handleException($e);
+        //parent::handleException($e);
     }
 
     protected function handleFileNotFoundException( \RMC\FileNotFoundException $e )
     {
-        parent::handleFileNotFoundException($e);
+        //parent::handleFileNotFoundException($e);
     }
 }

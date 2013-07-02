@@ -6,6 +6,7 @@
  * @property mixed lastName 
  * @property Resume resume
  * @property mixed dayOfBirth
+ * @property mixed city
  * @property Languages[] languages
 */
 
@@ -24,7 +25,7 @@ class Me extends \RMC\ORMModelAbstract
      */
     public function getFullInfo()
     {
-        $me = $this->join(array('resume.jobs.tasks','resume.skills', 'languages'))->getByPK(1);
+        $me = $this->join(array('resume.jobs.tasks','resume.skills', 'resume.technologies', 'languages'))->getByPK(1);
         return $me;
     }
 
@@ -35,6 +36,17 @@ class Me extends \RMC\ORMModelAbstract
     {
         $me = $this->join(array('languages'))->getByPK(1);
         return $me;
+    }
+
+    public function getAge()
+    {
+        if(!isset($this->id)){
+            $me = $this->getBaseInfo();
+        } else {
+            $me = $this;
+        }
+        $result = DateTime::createFromFormat(DB_DATE_FORMAT, $me->dayOfBirth)->diff(new DateTime())->y;
+        return $result;
     }
 
 

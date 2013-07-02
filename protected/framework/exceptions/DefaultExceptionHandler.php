@@ -57,6 +57,6 @@ class DefaultExceptionHandler extends ExceptionHandlerAbstract
     protected function generalAction(\Exception $e)
     {
         echo '<b>'.$e->getMessage().'</b> <br />';
-        echo ((print_r(\debug_backtrace(), 1))) ;
+        //echo ((print_r(\debug_backtrace(), 1))) ;
     }
 }
