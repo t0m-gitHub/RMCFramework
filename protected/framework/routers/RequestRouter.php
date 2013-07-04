@@ -43,7 +43,7 @@ class RequestRouter extends StaticClass
 
     }
 
-    private function createControllerAndRunAction( $controller, $action )
+    private static function createControllerAndRunAction( $controller, $action )
     {
         if (!class_exists($controller) || !method_exists($controller, $action)){
             throw new FileNotFoundException("Page {$controller}/{$action} not found");
@@ -53,17 +53,17 @@ class RequestRouter extends StaticClass
         exit;
     }
 
-    private function createDefaultModelAndRunDefaultAction()
+    private static function createDefaultModelAndRunDefaultAction()
     {
         static::createControllerAndRunAction(\Config::get()->defaultController . CONTROLLERS_SUFFIX, DEFAULT_ACTION_NAME . ACTIONS_SUFFIX);
     }
 
-    private function runDefaultAction( $controller )
+    private static function runDefaultAction( $controller )
     {
         static::createControllerAndRunAction($controller, DEFAULT_ACTION_NAME . ACTIONS_SUFFIX);
     }
 
-    private function languageChange()
+    private static function languageChange()
     {
         $lang = $_REQUEST['lang'];
         Session::set('lang', $lang);
@@ -72,7 +72,7 @@ class RequestRouter extends StaticClass
         exit;
     }
 
-    private function remoteModelCall($dataType)
+    private static function remoteModelCall($dataType)
     {
         Session::setDataContainerType($dataType);
         $data = file_get_contents('php://input');
