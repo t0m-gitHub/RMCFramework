@@ -8,9 +8,8 @@ class IndexController extends \RMC\Controller
 {
     public function indexAction()
     {
-        //\RMC\ModelGenerator::generate('Technologies');die;
+        //\RMC\ModelGenerator::generate('Education');die;
         $me = Me::getInstance()->getFullInfo();
-
         $skillsString = '';
         $skillsArray = array();
         foreach($me->resume->skills as $skill){
@@ -20,6 +19,7 @@ class IndexController extends \RMC\Controller
                 'description' => $skill->description,
             );
         }
+
         $this->view->setPageTitle('PHP Developer. Klimenko Alex.');
         echo $this->view->render('index' ,array(
             'skills' => $skillsString,
@@ -28,6 +28,10 @@ class IndexController extends \RMC\Controller
             'name' => $me->firstName . ' ' . $me->lastName,
             'city' => $me->city,
             'technologies' => $me->resume->technologies,
+            'experience' => $me->resume->experience,
+            'jobs' => $me->resume->jobs,
+            'education' => $me->education,
+            'expectations' => $me->resume->expectations
         ));
     }
 }

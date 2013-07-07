@@ -7,7 +7,10 @@
  * @property Resume resume
  * @property mixed dayOfBirth
  * @property mixed city
+ * @property mixed email
+ * @property mixed phone
  * @property Languages[] languages
+ * @property Education[] education
 */
 
 class Me extends \RMC\ORMModelAbstract
@@ -25,7 +28,7 @@ class Me extends \RMC\ORMModelAbstract
      */
     public function getFullInfo()
     {
-        $me = $this->join(array('resume.jobs.tasks','resume.skills', 'resume.technologies', 'languages'))->getByPK(1);
+        $me = $this->join(array('resume.jobs.tasks','resume.skills', 'resume.technologies', 'resume.experience', 'languages', 'education'))->getByPK(1);
         return $me;
     }
 

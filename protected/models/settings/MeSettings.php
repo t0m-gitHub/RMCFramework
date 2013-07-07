@@ -22,22 +22,30 @@ class MeSettings extends \RMC\ModelSettingsAbstract
             'lastName' => array('maxLength' => 50), 
             'dayOfBirth' => array('maxLength' => 0), 
             'city' => array('maxLength' => 255),
+            'email' => array('maxLength' => 100),
+            'phone' => array('maxLength' => 100)
         );
     }
 
     public static function relations()
     {
         return array(
-            'resume' => array(
+            'resume' => array (
                 'model' => 'Resume',
                 'type'  => 'One',
                 'condition' => 'resume.owner = Me.id',
                 'joinType' => 'LEFT'
             ),
-            'languages' => array(
+            'languages' => array (
                 'model' => 'Languages',
                 'type'  => 'Many',
                 'condition' => 'languages.owner = Me.id',
+                'joinType' => 'LEFT'
+            ),
+            'education' => array (
+                'model' => 'Education',
+                'type'  => 'Many',
+                'condition' => 'education.owner = Me.id',
                 'joinType' => 'LEFT'
             )
         );

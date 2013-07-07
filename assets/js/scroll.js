@@ -1,9 +1,6 @@
 
 
 
-$('.navbar a, .subnav a').smoothScroll();
-
-
 (function ($) {
 
     $(function(){

@@ -8,6 +8,7 @@
  * @property Jobs[] jobs
  * @property Skills[] skills
  * @property Technologies[] technologies
+ * @property Experience[] experience
 */
 
 class Resume extends \RMC\ORMModelAbstract

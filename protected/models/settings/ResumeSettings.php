@@ -50,6 +50,12 @@ class ResumeSettings extends \RMC\ModelSettingsAbstract
                 'type'  => 'Many',
                 'condition' => 'technologies.owner = resume.id',
                 'joinType' => 'LEFT'
+            ),
+            'experience' => array(
+                'model' => 'Experience',
+                'type'  => 'Many',
+                'condition' => 'experience.owner = resume.id',
+                'joinType' => 'LEFT'
             )
         );
     }
