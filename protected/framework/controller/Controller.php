@@ -20,6 +20,12 @@ abstract class Controller
     {
         $this->view = new View($this);
     }
+
+    public function getControllerName()
+    {
+        return Tools::getClassName($this);
+    }
+
     /**
      * @return mixed
      *

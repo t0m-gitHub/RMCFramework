@@ -5,7 +5,9 @@ section:before {
     margin:-90px 0 0;
 }
 
-
+.address {
+    padding-top: 100px;
+}
 button#print
 {
     position: fixed;

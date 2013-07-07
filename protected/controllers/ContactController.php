@@ -5,7 +5,7 @@ class ContactController extends \RMC\Controller
 {
     public function indexAction()
     {
-        $me = Me::getInstance()->getBaseInfo();
-
+        $this->view->setPageTitle('Contact information');
+        echo $this->view->render('index');
     }
 }

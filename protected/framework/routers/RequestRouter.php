@@ -45,6 +45,7 @@ class RequestRouter extends StaticClass
 
     private static function createControllerAndRunAction( $controller, $action )
     {
+        $controller = ucfirst($controller);
         if (!class_exists($controller) || !method_exists($controller, $action)){
             throw new FileNotFoundException("Page {$controller}/{$action} not found");
         }

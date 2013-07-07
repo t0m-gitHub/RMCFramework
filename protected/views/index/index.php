@@ -2,7 +2,7 @@
 <header>
 
     <div class = 'row'>
-    <span class = 'span6'>
+    <span class = 'span7'>
         <h2><?= RMC\T::get('PHP, MySQL Developer')?></h2>
     </span>
     </div>
@@ -19,24 +19,24 @@
         </ul>
     </div>`
 </header>
-
+<!-- print -->
 <section id="generalinfo">
 
 
-    <p class = 'title'><?= RMC\T::get('General information')?></p>
+    <p class='title'><?= RMC\T::get('General information')?></p>
     <div>
-        <b><?= RMC\T::get('Name:')?> </b> <i><?= RMC\T::get($name)?></i> <br />
-        <b><?= RMC\T::get('Age:')?></b> <i><?= $age ?></i> <br />
-        <b><?= RMC\T::get('City:')?></b> <i><?= RMC\T::get($city)?></i> <br />
-        <b><?= RMC\T::get('Overall experience:')?></b> <i>2+ years</i> <br />
-        <b><?= RMC\T::get('Email:')?></b> <span id="email"></span> <br />
-        <b><?= RMC\T::get('Phone:')?></b> <span id="phone"></span> <br />
-        <b><?= RMC\T::get('GitHub profile:')?></b> <a href="https://github.com/t0m-gitHub" target = "_blank">https://github.com/t0m-gitHub</a><br />
+        <b><?= RMC\T::get('Name')?>: </b> <i><?= RMC\T::get($name)?></i> <br />
+        <b><?= RMC\T::get('Age')?>:</b> <i><?= $age ?></i> <br />
+        <b><?= RMC\T::get('City')?>:</b> <i><?= RMC\T::get($city)?></i> <br />
+        <b><?= RMC\T::get('Overall experience')?>:</b> <i>2+ years</i> <br />
+        <b><?= RMC\T::get('Email')?>:</b> <span id="email"></span> <br />
+        <b><?= RMC\T::get('Phone')?>:</b> <span id="phone"></span> <br />
+        <b><?= RMC\T::get('GitHub profile')?>:</b> <a href="https://github.com/t0m-gitHub" target = "_blank">https://github.com/t0m-gitHub</a><br />
     </div>
- </section>
+</section>
 
 <section id="skills">
-    <p class = 'title'><?= RMC\T::get('Skills')?></p>
+    <p class='title'><?= RMC\T::get('Skills')?></p>
     <ul>
         <? foreach($skillsArray as $level => $skills): ?>
             <li>
@@ -53,7 +53,7 @@
 </section>
 
 <section id="technologies">
-    <p class = 'title'><?= RMC\T::get('Technologies')?></p>
+    <p class='title'><?= RMC\T::get('Technologies')?></p>
     <ul>
         <? foreach($technologies as $technology): ?>
             <li>
@@ -64,29 +64,23 @@
 </section>
 
 <section id="jobs">
-    <p class = 'title'><?= RMC\T::get('Jobs')?></p>
-    <ul>
-        <? foreach($jobs as $job): ?>
-                <b><?= RMC\T::get($job->name)?></b> <br/>
-            <i><?= RMC\T::get($job->description)?></i> <br />
-            <?= DateTime::createFromFormat(DB_DATE_FORMAT, $job->startDate)->format('Y.m') . ' - '. (empty($job->quitDate) ? 'current' :DateTime::createFromFormat(DB_DATE_FORMAT, $job->quitDate)->format('Y.m')) ?>
-            <br/>
-            <ul>
+    <p class='title'><?= RMC\T::get('Jobs')?></p>
+    <? foreach($jobs as $job): ?>
+        <b><?= RMC\T::get($job->name)?></b> <br/>
+        <i><?= RMC\T::get($job->description)?></i> <br />
+        <?= DateTime::createFromFormat(DB_DATE_FORMAT, $job->startDate)->format('Y.m') . ' - '. (empty($job->quitDate) ? 'current' :DateTime::createFromFormat(DB_DATE_FORMAT, $job->quitDate)->format('Y.m')) ?>
+        <ul>
             <? foreach($job->tasks as $task): ?>
-               <li>
-                   <b><?= RMC\T::get($task->taskName)?></b> — <?= RMC\T::get($task->taskDescription)?>
-               </li>
+                <li>
+                    <b><?= RMC\T::get($task->taskName)?></b> — <?= RMC\T::get($task->taskDescription)?>
+                </li>
             <? endforeach ?>
-            </ul>
-            <br/><br />
-        <? endforeach ?>
-
-    </ul>
-
+        </ul>
+    <? endforeach ?>
 </section>
 
 <section id="experience">
-    <p class = 'title'><?= RMC\T::get('Experience')?></p>
+    <p class='title'><?= RMC\T::get('Experience')?></p>
     <ul>
         <? foreach($experience as $task): ?>
             <li>
@@ -97,25 +91,24 @@
 </section>
 
 <section id="education">
-    <p class = 'title'><?= RMC\T::get('Education')?></p>
-    <ul>
-        <? foreach($education as $univ): ?>
-            <li>
-                <b><?= RMC\T::get($univ->name)?></b><br />
-                <b><?= RMC\T::get('Graduation year')?>: </b><?= DateTime::createFromFormat(DB_DATE_FORMAT, $univ->graduateDate)->format('Y')?><br />
-                <i><?= RMC\T::get($univ->description)?></i>
-            </li>
-        <? endforeach ?>
-    </ul>
+    <p class='title'><?= RMC\T::get('Education')?></p>
+    <? foreach($education as $univ): ?>
+        <p>
+            <b><?= RMC\T::get($univ->name)?></b><br />
+            <b><?= RMC\T::get('Graduation year')?>: </b><?= DateTime::createFromFormat(DB_DATE_FORMAT, $univ->graduateDate)->format('Y')?><br />
+            <i><?= RMC\T::get($univ->description)?></i>
+        </p>
+    <? endforeach ?>
 </section>
 
 <section id="expectations">
-    <p class = 'title'><?= RMC\T::get('Expectations')?></p>
-    <?= $expectations ?>
+    <p class='title'><?= RMC\T::get('Expectations')?></p>
+    <?= RMC\T::get($expectations)?>
 </section>
 <br />
 <br />
-
-<button class="btn btn-inverse" id="print"><?= RMC\T::get('Print CV')?></button>
+<!-- printEnd -->
+<a href = 'index.php?action=index&print=1' target="_blank"><button class="btn btn-inverse" id="print"><?= RMC\T::get('Print CV')?></button></a>
 
 <script src="assets/js/index.js"></script>
+<script src="assets/js/getContactInfo.js"></script>
