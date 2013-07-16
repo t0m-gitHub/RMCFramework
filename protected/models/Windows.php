@@ -45,6 +45,13 @@ class Windows extends \RMC\RESTModel
         return array('closed' => true, 'name' => 'kitchen');
     }
 
+    /**
+     * @return Windows
+     */
+    public static function getInstance()
+    {
+        parent::getInstance();
+    }
 
 
 }

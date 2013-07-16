@@ -45,6 +45,5 @@ class RESTModelCallController extends ClosedConstructor
         $response->success = true;
         $response->data = $result;
         echo $response->getSerializedData('rest');
-
     }
 }
