@@ -19,6 +19,7 @@ class IndexController extends \RMC\Controller
             );
         }
 
+
         $this->view->setPageTitle('Klimenko Aleksander. PHP Developer.');
         $viewParams = array(
             'skills' => $skillsString,
