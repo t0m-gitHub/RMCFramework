@@ -23,7 +23,7 @@ abstract class RemoteModelCallControllerAbstract
         $methodName = $modelData->calledMethod;
 
         $model = $this->getModel($modelName);
-        if(!($model instanceof DecoratorAbstract) && !($model instanceof ModelAbstract)){
+        if(!($model instanceof DecoratorAbstract) && !($model instanceof Model)){
             throw new RMCException(get_class($this) . "::getModel should return a model");
         }
 

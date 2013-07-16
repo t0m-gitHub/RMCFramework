@@ -49,7 +49,7 @@ class Config
                 'dbName' => 'resume',
             ),
 
-            'generalModelDecorator' => 'GeneralDecorator',
+            'generalModelDecorator' => 'GeneralModelDecorator',
 
             'exceptionHandler' => 'ExceptionHandler'
 
