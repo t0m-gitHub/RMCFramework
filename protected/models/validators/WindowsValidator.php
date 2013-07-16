@@ -3,23 +3,23 @@
 
 class WindowsValidator extends \RMC\RESTValidator
 {
-    public function get()
+    public function get($params = null, $id = null)
     {
-        return $this->_model->get();
+        return $this->_model->get($params, $id);
     }
 
-    public function post()
+    public function post($params = null, $id = null)
     {
-        return $this->_model->post();
+        return $this->_model->post($params, $id);
     }
 
-    public function put()
+    public function put($params = null, $id = null)
     {
-        return $this->_model->put();
+        return $this->_model->put($params, $id);
     }
 
-    public function delete()
+    public function delete($params = null, $id = null)
     {
-        return $this->_model->delete();
+        return $this->_model->delete($params, $id);
     }
 }

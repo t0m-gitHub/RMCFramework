@@ -17,7 +17,7 @@ abstract class DataContainerAbstract
     public function __construct($format = null)
     {
         if(isset($format)){
-            $serializerName = 'RMC\\'.$format . SERIALIZERS_SUFFIX;
+            $serializerName = 'RMC\\'. strtoupper($format) . SERIALIZERS_SUFFIX;
             if(!class_exists($serializerName)){
                 throw new RMCException("Unsupported format {$format}");
             }
@@ -28,7 +28,7 @@ abstract class DataContainerAbstract
     public function getSerializedData($format = null)
     {
         if(isset($format)){
-            $serializerName =  'RMC\\'.$format . SERIALIZERS_SUFFIX;
+            $serializerName =  'RMC\\'. strtoupper($format) . SERIALIZERS_SUFFIX;
             if(!class_exists($serializerName)){
                 throw new RMCException("Unsupported format {$format}");
             }

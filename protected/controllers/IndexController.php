@@ -8,6 +8,6 @@ class IndexController extends \RMC\Controller
 {
     public function indexAction()
     {
-        var_export(Windows::getInstance());
+        echo $this->view->render('index');
     }
 }

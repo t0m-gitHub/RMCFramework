@@ -9,29 +9,40 @@
 
 class Windows extends \RMC\RESTModel
 {
-    public function get()
+    public function get($params = null, $id = null)
+    {
+        if (!empty($id)){
+            return $this->getWindowById($params, $id);
+        }
+        return $this->getWindowsList($params);
+    }
+
+    public function post($params = null, $id = null)
     {
 
     }
 
-    public function post()
+    public function put($params = null, $id = null)
     {
 
     }
 
-    public function put()
+    public function delete($params = null, $id = null)
     {
 
     }
 
-    public function delete()
+    private function getWindowsList($params)
     {
-
+        return array(
+            0 => array('closed' => true, 'name' => 'kitchen'),
+            1 => array('closed' => false, 'name' => 'bedroom')
+        );
     }
 
-    private function getWindowsList()
+    private function getWindowById($params, $id)
     {
-
+        return array('closed' => true, 'name' => 'kitchen');
     }
 
 

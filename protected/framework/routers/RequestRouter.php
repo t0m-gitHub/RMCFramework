@@ -18,7 +18,16 @@ class RequestRouter extends StaticClass
             static::createDefaultModelAndRunDefaultAction();
         }
 
-        switch($actionPath){
+        if( strpos($actionPath, ROUTE_SEPARATOR_CHAR) ){
+            $actionArray = explode(ROUTE_SEPARATOR_CHAR, $actionPath);
+            $controller = isset($actionArray[0]) ? $actionArray[0] : null;
+            $action = isset($actionArray[1]) ? $actionArray[1] : null;
+            $restId = isset($actionArray[2]) ? $actionArray[2] : null;
+        } else {
+            $controller = $actionPath;
+        }
+
+        switch($controller){
             case REMOTE_MODEL_CALL_ACTION_NAME:
                 $dataType = !empty($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER]) ? filter_var($_REQUEST[HTTP_GET_DATA_TYPE_PARAMETER], FILTER_SANITIZE_STRING) : DEFAULT_DATA_TYPE;
                 static::remoteModelCall($dataType);
@@ -26,14 +35,11 @@ class RequestRouter extends StaticClass
             case LANGUAGE_CHANGE_ACTION_NAME:
                 static::languageChange();
                 break;
+            case REST_MODEL_CALL_ACTION_NAME:
+                Session::setDataContainerType('rest');
+                RESTModelCallController::run(isset($action) ? $action : '', isset($restId) ? $restId : null);
+                break;
         }
-
-        if( strpos($actionPath, ROUTE_SEPARATOR_CHAR) ){
-            list($controller, $action) = explode(ROUTE_SEPARATOR_CHAR, $actionPath);
-        } else {
-            $controller = $actionPath;
-        }
-
 
         if(!empty($controller) && empty($action)){
             static::runDefaultAction($controller . CONTROLLERS_SUFFIX);

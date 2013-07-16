@@ -12,8 +12,8 @@ namespace RMC;
 
 interface RESTInterface
 {
-    public function get();
-    public function post();
-    public function delete();
-    public function put();
+    public function get($params = null, $id = null);
+    public function post($params = null, $id = null);
+    public function delete($params = null, $id = null);
+    public function put($params = null, $id = null);
 }

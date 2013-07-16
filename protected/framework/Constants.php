@@ -16,3 +16,4 @@ define('RELATION_TYPE_ONE',             'One');
 define('DEFAULT_DATA_TYPE',             'JSON');
 define('ROUTE_SEPARATOR_CHAR',          '/');
 define('DB_DATE_FORMAT',                'Y-m-d H:i:s');
+define('REST_MODEL_CALL_ACTION_NAME',   'rest');

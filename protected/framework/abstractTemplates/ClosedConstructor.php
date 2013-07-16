@@ -18,5 +18,4 @@ abstract class ClosedConstructor
     private function __sleep() {}
     private function __clone() {}
     private function __wakeup() {}
-    abstract public static function getInstance();
 }
