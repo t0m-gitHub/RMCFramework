@@ -8,7 +8,14 @@ namespace RMC;
 
 class Bootstrap
 {
-    static function setAutoLoad()
+    private static $externalAutoLoaders;
+
+    static function registerExternalAutoLoader($autoLoader)
+    {
+        self::$externalAutoLoaders[] = $autoLoader;
+    }
+
+    static function registerAutoLoad()
     {
         spl_autoload_register('self::autoLoad');
     }
@@ -54,7 +61,9 @@ class Bootstrap
                 break;
 
             } elseif(count($paths) + 1 == $key) {
-                throw new \RMC\FileNotFoundException("Class {$class} not found");
+                foreach(static::$externalAutoLoaders as $autoLoader){
+                    call_user_func($autoLoader, $class);
+                }
             }
         }
     }

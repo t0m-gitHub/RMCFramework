@@ -1,9 +1,5 @@
 <?php
-/**
- * User: t0m
- * Date: 16.05.13
- * Time: 11:13
- */
+
 class Config
 {
     public static function get()
@@ -39,15 +35,6 @@ class Config
             ),
 
             'defaultController' => 'Index',
-
-            'database' => array(
-                'dbType' => 'MySQL',
-                'user' => 'root',
-                'password' => 'root',
-                'host' => 'localhost',
-                'port' => '3306',
-                'dbName' => 'resume',
-            ),
 
             'generalModelDecorator' => 'GeneralModelDecorator',
 

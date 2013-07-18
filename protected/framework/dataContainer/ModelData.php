@@ -21,13 +21,14 @@ class ModelData extends DataContainerAbstract
     {
         parent::__construct($format);
         $unserializedData = $this->serializer->unserialize($rawData);
-        if(!$unserializedData){
+        if(!$unserializedData || !isset($unserializedData['method']) || (strpos($unserializedData['method'], '_') === false)){
             throw new UserException('invalid data format');
         }
-        $this->modelName = isset($unserializedData['modelName']) ? $unserializedData['modelName'] : null;
+        list($modelName, $methodName) = explode('_', $unserializedData['method']);
+        $this->modelName = $modelName;
         $this->modelProperties = isset($unserializedData['modelProperties']) ? $unserializedData['modelProperties'] : null;
-        $this->calledMethod = isset($unserializedData['calledMethod']) ? $unserializedData['calledMethod'] : null;
-        $this->methodProperties = isset($unserializedData['methodProperties']) ? $unserializedData['methodProperties'] : null;
+        $this->calledMethod = $methodName;
+        $this->methodProperties = isset($unserializedData['params']) ? $unserializedData['params'] : null;
     }
 
 }

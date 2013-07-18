@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <propel>
+        <datasources default="home">
+            <datasource id="home">
+                <adapter>pgsql</adapter>
+                <connection>
+                    <dsn>pgsql:host=localhost;dbname=home</dsn>
+                    <user>home</user>
+                    <password>temp_pass</password>
+                </connection>
+            </datasource>
+        </datasources>
+    </propel>
+</config>
